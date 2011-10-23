@@ -1,0 +1,276 @@
+<!-- Generator: GNU source-highlight 3.1.4
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><b><font color="#0000FF">%META:TOPICINFO{</font></b><font color="#009900">author=</font><font color="#FF0000">"ProjectContributor"</font><b><font color="#0000FF"> </font></b><font color="#009900">date=</font><font color="#FF0000">"1195829708"</font><b><font color="#0000FF"> </font></b><font color="#009900">format=</font><font color="#FF0000">"1.1"</font><b><font color="#0000FF">  </font></b><font color="#009900">version=</font><font color="#FF0000">"</font><b><font color="#000000">$Rev</font></b><font color="#FF0000">$"</font><b><font color="#0000FF">}%</font></b>
+<i><font color="#9A1900">&lt;!--</font></i>
+
+<i><font color="#9A1900">   PLEASE DO NOT EDIT THIS TOPIC</font></i>
+
+<i><font color="#9A1900">   It is automatically generated from the subversion repository, and any changes</font></i>
+<i><font color="#9A1900">   you make will simply be overwritten the next time a release is generated.</font></i>
+
+<i><font color="#9A1900">   Instead, you could check your fix in, raise a bug in the Bugs web, or mail the author.</font></i>
+<i><font color="#9A1900">--&gt;</font></i>
+<b><font color="#000080">---+!!</font></b> <b><font color="#000080">&lt;nop&gt;</font></b><b><font color="#0000FF">%TOPIC%</font></b>
+<b><font color="#0000FF">%TOC%</font></b>
+<b><font color="#000080">---++</font></b> Description
+<b><font color="#0000FF">&lt;table</font></b> <font color="#009900">style</font><font color="#990000">=</font><font color="#FF0000">"float:right"</font><b><font color="#0000FF">&gt;</font></b>
+<b><font color="#0000FF">&lt;tr&gt;</font></b>
+  <b><font color="#0000FF">&lt;td&gt;&lt;a</font></b> <font color="#009900">href</font><font color="#990000">=</font><font color="#FF0000">"http://wikiring.com"</font> <font color="#009900">title</font><font color="#990000">=</font><font color="#FF0000">"Make your Wiki ring!"</font> <font color="#009900">style</font><font color="#990000">=</font><font color="#FF0000">"text-decoration:none"</font><b><font color="#0000FF">&gt;</font></b>
+      Powered by <b><font color="#0000FF">&lt;br</font></b> <b><font color="#0000FF">/&gt;</font></b> <b><font color="#000080">&lt;nop&gt;</font></b>WikiRing Consultants <b><font color="#0000FF">&lt;/a&gt;</font></b>
+  <b><font color="#0000FF">&lt;/td&gt;</font></b>
+<b><font color="#0000FF">&lt;/tr&gt;</font></b>
+<b><font color="#0000FF">&lt;/table&gt;</font></b>
+This plugin will help you to write _readable_ markup (<b><font color="#000080">&lt;nop&gt;</font></b>TopicMarkup, HMTL, ...)
+by allowing tags and arguments to be formatted on multiple lines.
+This is done by removing whitespaces surrounding tilde characters at the
+beginning of a line and recombine consecutive lines again.  Basically, there
+are two ways of glueing and recombining lines by either removing all whitespaces
+between two lines using =%*~~= or 
+by removing all whitespaces and separateing lines with a
+single space using =~~~=.  
+There's a helper character sequence =%~~= that prevents the engine to
+interprete tags before the GluePlugin could reformat the text.
+In addition there's a glue sequence =#~~= to insert comments within a <b><font color="#000080">&lt;nop&gt;</font></b>TopicMarkup
+expression.
+
+While these glue sequences might feel strange at the beginning they help you
+to format and recognize your markup and make it more readable. That way you
+will be able to format a <b><font color="#000080">&lt;nop&gt;</font></b>WikiApplications that looked like this
+
+<b><font color="#0000FF">&lt;verbatim&gt;</font></b>
+<b><font color="#0000FF">%SEARCH{</font></b><font color="#FF0000">"..."</font><b><font color="#0000FF"> </font></b><font color="#009900">type=</font><font color="#FF0000">"query"</font><b><font color="#0000FF"> </font></b><font color="#009900">header=</font><font color="#FF0000">"&lt;table width="</font><b><font color="#0000FF">100%</font></b><font color="#FF0000">" border="</font><b><font color="#0000FF">5px</font></b><font color="#FF0000">"&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;Name&lt;/th&gt;&lt;th&gt;Description&lt;/th&gt;&lt;th&gt;Date&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;"</font><b><font color="#0000FF"> </font></b><font color="#009900">format=</font><font color="#FF0000">"&lt;tr&gt;&lt;th&gt;</font><b><font color="#000000">$formfield(</font></b><font color="#008080">Name</font><b><font color="#000000">)</font></b><font color="#FF0000">&lt;/th&gt;&lt;th&gt;</font><b><font color="#000000">$summary</font></b><font color="#FF0000">&lt;/th&gt;&lt;th&gt;</font><b><font color="#000000">$createdate</font></b><font color="#FF0000">&lt;/th&gt;&lt;/tr&gt;"</font><b><font color="#0000FF"> </font></b><font color="#009900">footer=</font><font color="#FF0000">"&lt;/table&gt;"</font><b><font color="#0000FF">}%</font></b>
+<b><font color="#0000FF">&lt;/verbatim&gt;</font></b>
+
+somewhat like this
+
+<b><font color="#0000FF">&lt;verbatim&gt;</font></b>
+<i><font color="#9A1900">#~~ #################################</font></i>
+<i><font color="#9A1900">#~~ # This is my new WikiApplication</font></i>
+<b><font color="#000080">~~~</font></b>
+<b><font color="#0000FF">%~~ SEARCH{</font></b>
+<i><font color="#9A1900">#~~ #################################</font></i>
+<i><font color="#9A1900">#~~ # this is the search expression</font></i>
+<b><font color="#000080">~~~</font></b><b><font color="#0000FF">   </font></b><font color="#FF0000">"..."</font>
+<b><font color="#000080">~~~</font></b>
+<b><font color="#000080">~~~</font></b><b><font color="#0000FF">   </font></b><font color="#009900">type=</font><font color="#FF0000">"query"</font>
+<b><font color="#000080">~~~</font></b>
+<i><font color="#9A1900">#~~ #################################</font></i>
+<i><font color="#9A1900">#~~ # this is the header of the result table</font></i>
+<b><font color="#000080">~~~</font></b><b><font color="#0000FF"> </font></b>
+<b><font color="#000080">~~~</font></b><b><font color="#0000FF">   </font></b><font color="#009900">header=</font><font color="#FF0000">"</font>
+<b><font color="#000080">~~~</font></b><font color="#FF0000">      &lt;table</font>
+<b><font color="#000080">~~~</font></b><font color="#FF0000">        width="</font><b><font color="#0000FF">100%</font></b><font color="#FF0000">"</font>
+<b><font color="#000080">~~~</font></b><font color="#FF0000">        border="</font><b><font color="#0000FF">5px</font></b><font color="#FF0000">"</font>
+<b><font color="#000080">~~~</font></b><font color="#FF0000">      &gt;</font>
+<b><font color="#000080">~~~</font></b><font color="#FF0000">      &lt;thead&gt;</font>
+<b><font color="#000080">~~~</font></b><font color="#FF0000">        &lt;tr&gt;</font>
+<b><font color="#000080">~~~</font></b><font color="#FF0000">          &lt;th&gt;Name&lt;/th&gt;</font>
+<b><font color="#000080">~~~</font></b><font color="#FF0000">          &lt;th&gt;Description&lt;/th&gt;</font>
+<b><font color="#000080">~~~</font></b><font color="#FF0000">          &lt;th&gt;Date&lt;/th&gt;</font>
+<b><font color="#000080">~~~</font></b><font color="#FF0000">        &lt;/tr&gt;</font>
+<b><font color="#000080">~~~</font></b><font color="#FF0000">      &lt;/thead&gt;"</font>
+<i><font color="#9A1900">#~~ #################################</font></i>
+<i><font color="#9A1900">#~~ # every row will be formatted like this</font></i>
+<b><font color="#000080">~~~</font></b>
+<b><font color="#000080">~~~</font></b><b><font color="#0000FF">   </font></b><font color="#009900">format=</font><font color="#FF0000">"</font>
+<b><font color="#000080">~~~</font></b><font color="#FF0000">      &lt;tr&gt;</font>
+<b><font color="#000080">~~~</font></b><font color="#FF0000">        &lt;th&gt;</font><b><font color="#000000">$formfield(</font></b><font color="#008080">Name</font><b><font color="#000000">)</font></b><font color="#FF0000">&lt;/th&gt;</font>
+<b><font color="#000080">~~~</font></b><font color="#FF0000">        &lt;th&gt;</font><b><font color="#000000">$summary</font></b><font color="#FF0000">&lt;/th&gt;</font>
+<b><font color="#000080">~~~</font></b><font color="#FF0000">        &lt;th&gt;</font><b><font color="#000000">$createdate</font></b><font color="#FF0000">&lt;/th&gt;</font>
+<b><font color="#000080">~~~</font></b><font color="#FF0000">      &lt;/tr&gt;"</font>
+<i><font color="#9A1900">#~~ #################################</font></i>
+<i><font color="#9A1900">#~~ # and finally we close this html table</font></i>
+<b><font color="#000080">~~~</font></b>
+<b><font color="#000080">~~~</font></b><b><font color="#0000FF">   </font></b><font color="#009900">footer=</font><font color="#FF0000">"&lt;/table&gt;"</font>
+<b><font color="#0000FF">~~~ }%</font></b>
+<i><font color="#9A1900">#~~ #################################</font></i>
+<i><font color="#9A1900">#~~ # sure we could have used </font></i>
+<i><font color="#9A1900">#~~ # | WikiTables | as well |</font></i>
+<i><font color="#9A1900">#~~ # but these aren't robust against newlines</font></i>
+<i><font color="#9A1900">#~~ # in the $summary field</font></i>
+<i><font color="#9A1900">#~~ #################################</font></i>
+<b><font color="#0000FF">&lt;/verbatim&gt;</font></b>
+
+
+<b><font color="#000080">---++</font></b> Syntax
+| *Line prefix* | *Action* |
+| =~~~<b><font color="#000080">&amp;lt;</font></b>space&gt;= | combine lines by removing all, insert one whitespaces |
+| =*~~<b><font color="#000080">&amp;lt;</font></b>space&gt;= | recombine lines by removing any whitespaces between them |
+| =%~~<b><font color="#000080">&amp;lt;</font></b>space&gt;= | escape tag interpretation |
+| =#~~<b><font color="#000080">&amp;lt;</font></b>space&gt;= | comment line, all chars on the same line are removed |
+
+The <b><font color="#000080">&amp;lt;</font></b>space&gt; is a literal whitespace blank. The =~~~<b><font color="#000080">&amp;lt;</font></b>space&gt;= and 
+=*~~<b><font color="#000080">&amp;lt;</font></b>space&gt;= sequences are recognized only at the beginning of a line, whereas
+the =%~~<b><font color="#000080">&amp;lt;</font></b>space&gt;= escape sequence might appear everywhere. The basic
+anatomy of writing a tag using the GluePlugin is exemplified by
+<b><font color="#0000FF">&lt;verbatim&gt;</font></b>
+<b><font color="#0000FF">%~~ TAG{</font></b>
+<b><font color="#000080">~~~</font></b><b><font color="#0000FF"> </font></b><font color="#009900">key=</font><font color="#FF0000">"</font>
+<b><font color="#000080">*~~</font></b><font color="#FF0000">      hello</font>
+<b><font color="#000080">~~~</font></b><font color="#FF0000">      world</font>
+<b><font color="#000080">*~~</font></b><font color="#FF0000"> "</font>
+<b><font color="#0000FF">~~~ }%</font></b>
+<b><font color="#0000FF">&lt;/verbatim&gt;</font></b>
+which will be recombined to
+<b><font color="#0000FF">&lt;verbatim&gt;</font></b>
+%<b><font color="#000080">&lt;nop&gt;</font></b>TAG{ key="hello world" }%
+<b><font color="#0000FF">&lt;/verbatim&gt;</font></b>
+
+<b><font color="#000080">---++</font></b> Examples
+<b><font color="#0000FF">&lt;table</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"foswikiTable"</font><b><font color="#0000FF">&gt;</font></b>
+<b><font color="#0000FF">&lt;tr&gt;&lt;th&gt;</font></b> You type: <b><font color="#0000FF">&lt;/th&gt;&lt;/tr&gt;</font></b>
+<b><font color="#0000FF">&lt;tr&gt;&lt;td&gt;</font></b>
+<b><font color="#0000FF">&lt;verbatim&gt;</font></b>
+This is a line
+<b><font color="#000080">~~~</font></b> glued to another line.
+<b><font color="#0000FF">&lt;/verbatim&gt;</font></b>
+<b><font color="#0000FF">&lt;/td&gt;&lt;/tr&gt;</font></b>
+<b><font color="#0000FF">&lt;tr&gt;&lt;th&gt;</font></b> You get (faked): <b><font color="#0000FF">&lt;/th&gt;&lt;/tr&gt;</font></b>
+<b><font color="#0000FF">&lt;tr&gt;&lt;td&gt;</font></b>
+<b><font color="#0000FF">&lt;pre&gt;</font></b>
+This is a line glued to another line.
+<b><font color="#0000FF">&lt;/pre&gt;</font></b>
+<b><font color="#0000FF">&lt;/td&gt;&lt;/tr&gt;</font></b>
+<b><font color="#0000FF">&lt;tr&gt;&lt;th&gt;</font></b> You get if installed: <b><font color="#0000FF">&lt;/th&gt;&lt;/tr&gt;</font></b>
+<b><font color="#0000FF">&lt;tr&gt;&lt;td&gt;</font></b>
+<b><font color="#0000FF">&lt;pre&gt;</font></b>
+This is a line 
+<b><font color="#000080">~~~</font></b> glued to another line.
+<b><font color="#0000FF">&lt;/pre&gt;</font></b>
+<b><font color="#0000FF">&lt;/td&gt;&lt;/tr&gt;</font></b>
+<b><font color="#0000FF">&lt;/table&gt;</font></b>
+
+<b><font color="#0000FF">&lt;table</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"foswikiTable"</font><b><font color="#0000FF">&gt;</font></b>
+<b><font color="#0000FF">&lt;tr&gt;&lt;th&gt;</font></b>You type:<b><font color="#0000FF">&lt;/th&gt;&lt;/tr&gt;</font></b>
+<b><font color="#0000FF">&lt;tr&gt;&lt;td&gt;</font></b>
+<b><font color="#0000FF">&lt;verbatim&gt;</font></b>
+Glue
+<b><font color="#000080">*~~</font></b> Plugin
+<b><font color="#0000FF">&lt;/verbatim&gt;</font></b>
+<b><font color="#0000FF">&lt;/td&gt;&lt;/tr&gt;</font></b>
+<b><font color="#0000FF">&lt;tr&gt;&lt;th&gt;</font></b>You get (faked):<b><font color="#0000FF">&lt;/th&gt;&lt;/tr&gt;</font></b>
+<b><font color="#0000FF">&lt;tr&gt;&lt;td&gt;</font></b> GluePlugin <b><font color="#0000FF">&lt;/td&gt;&lt;/tr&gt;</font></b>
+<b><font color="#0000FF">&lt;tr&gt;&lt;th&gt;</font></b>You get if installed:<b><font color="#0000FF">&lt;/th&gt;&lt;/tr&gt;</font></b>
+<b><font color="#0000FF">&lt;tr&gt;&lt;td&gt;</font></b>
+Glue
+<b><font color="#000080">*~~</font></b> Plugin
+<b><font color="#0000FF">&lt;/td&gt;&lt;/tr&gt;</font></b>
+<b><font color="#0000FF">&lt;/table&gt;</font></b>
+
+<b><font color="#0000FF">&lt;table</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"foswikiTable"</font><b><font color="#0000FF">&gt;</font></b>
+<b><font color="#0000FF">&lt;tr&gt;&lt;th&gt;</font></b>You type:<b><font color="#0000FF">&lt;/th&gt;&lt;/tr&gt;</font></b>
+<b><font color="#0000FF">&lt;tr&gt;&lt;td&gt;</font></b>
+<b><font color="#0000FF">&lt;verbatim&gt;</font></b>
+Apples
+
+<b><font color="#000080">~~~</font></b>  
+
+And
+
+<b><font color="#000080">~~~</font></b>
+
+Oranges
+<b><font color="#0000FF">&lt;/verbatim&gt;</font></b>
+<b><font color="#0000FF">&lt;/td&gt;&lt;/tr&gt;</font></b>
+<b><font color="#0000FF">&lt;tr&gt;&lt;th&gt;</font></b>You get (faked):<b><font color="#0000FF">&lt;/th&gt;&lt;/tr&gt;</font></b>
+<b><font color="#0000FF">&lt;tr&gt;&lt;td&gt;</font></b> Apples And Oranges <b><font color="#0000FF">&lt;/td&gt;&lt;/tr&gt;</font></b>
+<b><font color="#0000FF">&lt;tr&gt;&lt;th&gt;</font></b>You get if installed:<b><font color="#0000FF">&lt;/th&gt;&lt;/tr&gt;</font></b>
+<b><font color="#0000FF">&lt;tr&gt;&lt;td&gt;</font></b>
+Apples
+
+<b><font color="#000080">~~~</font></b>
+
+And 
+
+<b><font color="#000080">~~~</font></b>
+
+Oranges
+<b><font color="#0000FF">&lt;/td&gt;&lt;/tr&gt;</font></b>
+<b><font color="#0000FF">&lt;/table&gt;</font></b>
+
+<b><font color="#0000FF">&lt;table</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"foswikiTable"</font><b><font color="#0000FF">&gt;</font></b>
+<b><font color="#0000FF">&lt;tr&gt;&lt;th&gt;</font></b>You type:<b><font color="#0000FF">&lt;/th&gt;&lt;/tr&gt;</font></b>
+<b><font color="#0000FF">&lt;tr&gt;&lt;td&gt;</font></b>
+<b><font color="#0000FF">&lt;verbatim&gt;</font></b>
+<b><font color="#0000FF">%~~ SEARCH{</font></b><font color="#FF0000">"GluePlugin"</font>
+<b><font color="#000080">~~~</font></b><b><font color="#0000FF">        </font></b><font color="#009900">nosearch=</font><font color="#FF0000">"on"</font><b><font color="#0000FF"> </font></b><font color="#009900">nosummary=</font><font color="#FF0000">"on"</font><b><font color="#0000FF"> </font></b><font color="#009900">nototal=</font><font color="#FF0000">"on"</font>
+<b><font color="#000080">~~~</font></b><b><font color="#0000FF">        </font></b><font color="#009900">separator=</font><font color="#FF0000">", "</font>
+<b><font color="#000080">~~~</font></b><b><font color="#0000FF">        </font></b><font color="#009900">scope=</font><font color="#FF0000">"topic"</font>
+<b><font color="#000080">~~~</font></b><b><font color="#0000FF">        </font></b><font color="#009900">format=</font><font color="#FF0000">"</font><b><font color="#000000">$topic</font></b><font color="#FF0000">"</font>
+<b><font color="#0000FF">~~~ }%</font></b>
+<b><font color="#0000FF">&lt;/verbatim&gt;</font></b>
+<b><font color="#0000FF">&lt;/td&gt;&lt;/tr&gt;</font></b>
+<b><font color="#0000FF">&lt;tr&gt;&lt;th&gt;</font></b>You get (faked):<b><font color="#0000FF">&lt;/th&gt;&lt;/tr&gt;</font></b>
+<b><font color="#0000FF">&lt;tr&gt;&lt;td&gt;</font></b>
+<b><font color="#0000FF">%SEARCH{</font></b><font color="#FF0000">"GluePlugin"</font><b><font color="#0000FF"> </font></b><font color="#009900">nosearch=</font><font color="#FF0000">"on"</font><b><font color="#0000FF"> </font></b><font color="#009900">nosummary=</font><font color="#FF0000">"on"</font><b><font color="#0000FF"> </font></b><font color="#009900">nototal=</font><font color="#FF0000">"on"</font><b><font color="#0000FF"> </font></b><font color="#009900">separator=</font><font color="#FF0000">", "</font><b><font color="#0000FF"> </font></b><font color="#009900">scope=</font><font color="#FF0000">"topic"</font><b><font color="#0000FF"> </font></b><font color="#009900">format=</font><font color="#FF0000">"</font><b><font color="#000000">$topic</font></b><font color="#FF0000">"</font><b><font color="#0000FF">}%</font></b>
+<b><font color="#0000FF">&lt;/td&gt;&lt;/tr&gt;</font></b>
+<b><font color="#0000FF">&lt;tr&gt;&lt;th&gt;</font></b>You get if installed:<b><font color="#0000FF">&lt;/th&gt;&lt;/tr&gt;</font></b>
+<b><font color="#0000FF">&lt;tr&gt;&lt;td&gt;</font></b>
+<b><font color="#0000FF">%~~ SEARCH{</font></b><font color="#FF0000">"GluePlugin"</font>
+<b><font color="#000080">~~~</font></b><b><font color="#0000FF">        </font></b><font color="#009900">nosearch=</font><font color="#FF0000">"on"</font><b><font color="#0000FF"> </font></b><font color="#009900">nosummary=</font><font color="#FF0000">"on"</font><b><font color="#0000FF"> </font></b><font color="#009900">nototal=</font><font color="#FF0000">"on"</font>
+<b><font color="#000080">~~~</font></b><b><font color="#0000FF">        </font></b><font color="#009900">separator=</font><font color="#FF0000">", "</font>
+<b><font color="#000080">~~~</font></b><b><font color="#0000FF">        </font></b><font color="#009900">scope=</font><font color="#FF0000">"topic"</font>
+<b><font color="#000080">~~~</font></b><b><font color="#0000FF">        </font></b><font color="#009900">format=</font><font color="#FF0000">"</font><b><font color="#000000">$topic</font></b><font color="#FF0000">"</font>
+<b><font color="#0000FF">~~~ }%</font></b>
+<b><font color="#0000FF">&lt;/td&gt;&lt;/tr&gt;</font></b>
+<b><font color="#0000FF">&lt;/table&gt;</font></b>
+<b><font color="#0000FF">&lt;style</font></b> <font color="#009900">type</font><font color="#990000">=</font><font color="#FF0000">"text/css"</font><b><font color="#0000FF">&gt;</font></b>
+<font color="#993399">.foswikiTable</font> <font color="#FF0000">{</font>
+   <font color="#0000FF">width:</font><i><font color="#009900">100%</font></i>;
+<font color="#FF0000">}</font>
+<font color="#993399">.foswikiTable</font> th <font color="#FF0000">{</font>
+   <font color="#0000FF">text-align:</font><i><font color="#009900">left</font></i>;
+<font color="#FF0000">}</font>
+<font color="#993399">.foswikiTable</font> pre <font color="#FF0000">{</font>
+  <font color="#0000FF">margin:</font><i><font color="#009900">0px</font></i>;
+<font color="#FF0000">}</font>
+<b><font color="#0000FF">&lt;/style&gt;</font></b>
+
+<b><font color="#000080">---++</font></b> Plugin Installation Instructions
+%$INSTALL_INSTRUCTIONS%
+
+   * Set the plugins evaluation order to put the GluePlugin in first position, e.g. 
+     <b><font color="#0000FF">&lt;verbatim&gt;</font></b>$Foswiki::cfg{PluginsOrder} = 'GluePlugin,IfDefinedPlugin,SpreadSheetPlugin';<b><font color="#0000FF">&lt;/verbatim&gt;</font></b>
+   * If the plugin is installed correctly then the following two fruits
+     will appear joined on one line: Apples
+
+<b><font color="#000080">~~~</font></b> and Oranges
+
+
+<b><font color="#000080">---++</font></b> Plugin Info
+<i><font color="#9A1900">&lt;!-- provided for compatibility only</font></i>
+<i><font color="#9A1900">   * Set SHORTDESCRIPTION = Enable &lt;nop&gt;TopicMarkup to span multiple lines</font></i>
+<i><font color="#9A1900">--&gt;</font></i>
+
+|  Plugin Author: | Michael Daum |
+|  Copyright <b><font color="#000080">&amp;copy;</font></b>: | 2005-2009, Michael Daum http://michaeldaumconsulting.com |
+|  License: | GPL (<u><font color="#0000FF">[[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]</font></u>) |
+|  Release: | %$RELEASE% |
+|  Version: | %$VERSION% |
+|  Change History: | <i><font color="#9A1900">&lt;!-- versions below in reverse order --&gt;</font></i><b><font color="#000080">&amp;nbsp;</font></b> |
+|  17 Apr 2009: | converted to foswiki |
+|  07 Jan 2009: | certified for foswiki/compat |
+|  23 Nov 2007: | added way to add comments in the middle of a <b><font color="#000080">&lt;nop&gt;</font></b>TopicMarkup expression |
+|  31 Aug 2006: | added NO_PREFS_IN_TOPIC |
+|  28 Jul 2006: | fixed MANIFEST;\
+                  some minor docu updates; \
+                  added =use strict;= |
+|  28 Aug 2005: | changed glue syntax; added glue escape sequence to \
+                  work arround tags been interpreted before lines are \
+                  recombined |
+|  16 Aug 2005: | properly support internal tags; \
+          performance improvements;\
+        fixed use if uninitialized value | 
+|  15 Aug 2005: | Initial version |
+|  Dependency: | $Foswiki::Plugins::VERSION 1.024 |
+|  CPAN Dependencies: | none |
+|  Other Dependencies: | none |
+|  Perl Version: | 5.005 |
+|  Plugin Home: | Foswiki:Extensions/<b><font color="#0000FF">%TOPIC%</font></b> |
+|  Support: | Foswiki:Support/<b><font color="#0000FF">%TOPIC%</font></b> |
+
+
+<b><font color="#0000FF">%META:FILEATTACHMENT{</font></b><font color="#009900">name=</font><font color="#FF0000">"wikiringlogo40x40.png"</font><b><font color="#0000FF"> </font></b><font color="#009900">attr=</font><font color="#FF0000">"h"</font><b><font color="#0000FF"> </font></b><font color="#009900">autoattached=</font><font color="#FF0000">"0"</font><b><font color="#0000FF"> </font></b><font color="#009900">comment=</font><font color="#FF0000">""</font><b><font color="#0000FF"> </font></b><font color="#009900">date=</font><font color="#FF0000">"1190996093"</font><b><font color="#0000FF"> </font></b><font color="#009900">path=</font><font color="#FF0000">"wikiringlogo40x40.png"</font><b><font color="#0000FF"> </font></b><font color="#009900">size=</font><font color="#FF0000">"2571"</font><b><font color="#0000FF"> </font></b><font color="#009900">user=</font><font color="#FF0000">"ProjectContributor"</font><b><font color="#0000FF"> </font></b><font color="#009900">version=</font><font color="#FF0000">"1"</font><b><font color="#0000FF">}%</font></b>
+</tt></pre>

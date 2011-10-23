@@ -1,0 +1,424 @@
+<!-- Generator: GNU source-highlight 3.1.4
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><b><font color="#0000FF">%META:TOPICINFO{</font></b><font color="#009900">author=</font><font color="#FF0000">"ProjectContributor"</font><b><font color="#0000FF"> </font></b><font color="#009900">date=</font><font color="#FF0000">"1298840113"</font><b><font color="#0000FF"> </font></b><font color="#009900">format=</font><font color="#FF0000">"1.1"</font><b><font color="#0000FF"> </font></b><font color="#009900">version=</font><font color="#FF0000">"1"</font><b><font color="#0000FF">}%</font></b>
+<b><font color="#0000FF">%META:TOPICPARENT{</font></b><font color="#009900">name=</font><font color="#FF0000">"Macros"</font><b><font color="#0000FF">}%</font></b>
+<b><font color="#0000FF">%STARTINCLUDE%</font></b>
+<b><font color="#000080">---+</font></b> Formatted Search
+Customize the display of search results.
+
+The default output format of a =<u><font color="#0000FF">[[VarSEARCH][%</font></u><b><font color="#000080">&lt;nop&gt;</font></b><u><font color="#0000FF">SEARCH{...}%]]</font></u>= is a table consisting of topic names and topic summaries. Use the =format="..."= parameter to customize the search result. The format parameter typically defines a bullet or a table row containing macros, such as =%<b><font color="#000080">&lt;nop&gt;</font></b>SEARCH{ "food" format="| $topic | $summary |" }%=. See =<u><font color="#0000FF">[[VarSEARCH][%</font></u><b><font color="#000080">&lt;nop&gt;</font></b><u><font color="#0000FF">SEARCH{...}%]]</font></u>= for other search parameters, such as =separator=""=.
+
+<b><font color="#0000FF">%TOC%</font></b>
+
+<b><font color="#000080">---++</font></b> Syntax
+
+Three parameters can be used to specify a customized search result:
+
+<b><font color="#000080">---+++</font></b> 1. =header="..."= parameter
+
+Use the header parameter to specify the header of a search result. It should correspond to the format of the format parameter. This parameter is optional.
+*Example:* <b><font color="#0000FF">&lt;verbatim</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"tml"</font><b><font color="#0000FF">&gt;</font></b>header="| *Topic:* | *Summary:* |"<b><font color="#0000FF">&lt;/verbatim&gt;</font></b>
+
+Format tokens that can be used in the header string:
+
+| *Name:* | *Expands To:* |
+| =$web= | Name of the web |
+| =$ntopics= | Number of topics found in current web. Will be 0 (zero). |
+| =$nhits= | Number of hits if =multiple="on"=. Will be 0 (zero). |
+| =$pager= | pager control - can be optionally customised using the =pagerformat= below |
+<b><font color="#0000FF">%INCLUDE{</font></b><font color="#FF0000">"FormatTokens"</font><b><font color="#0000FF">}%</font></b>
+
+<b><font color="#0000FF">&lt;blockquote</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"foswikiHelp"</font><b><font color="#0000FF">&gt;%X%</font></b> Note that if the separator parameter for SEARCH is not defined a newline is added after the header.<b><font color="#0000FF">&lt;/blockquote&gt;</font></b>
+
+<b><font color="#000080">---+++</font></b> 2. =footer="..."= parameter
+
+Use the footer parameter to specify the footer of a search result. It should correspond to the format of the format parameter. This parameter is optional.
+*Example:* <b><font color="#0000FF">&lt;verbatim</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"tml"</font><b><font color="#0000FF">&gt;</font></b>footer="| *Total:* | *$nhits* |"<b><font color="#0000FF">&lt;/verbatim&gt;</font></b>
+
+Format tokens that can be used in the footer string:
+
+| *Name:* | *Expands To:* |
+| =$web= | Name of the web |
+| =$ntopics= | Number of topics found in current web |
+| =$nhits= | Number of hits if =multiple="on"=. Cumulative across all topics in current web. Identical to =$ntopics= unless =multiple="on"= |
+| =$pager= | pager control - can be optionally customised using the =pagerformat= below |
+<b><font color="#0000FF">%INCLUDE{</font></b><font color="#FF0000">"FormatTokens"</font><b><font color="#0000FF">}%</font></b>
+
+<b><font color="#0000FF">&lt;blockquote</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"foswikiHelp"</font><b><font color="#0000FF">&gt;%X%</font></b> Note that if the separator parameter for SEARCH is not defined a newline is added after the last search result.<b><font color="#0000FF">&lt;/blockquote&gt;</font></b>
+
+<b><font color="#000080">---+++</font></b> 3. =pagerformat="..."= parameter
+
+Use the pagerformat parameter to customise the appearance of the paging control. 
+It should correspond to the format of the format parameter. 
+This parameter is optional.
+*Example:* <b><font color="#0000FF">&lt;verbatim</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"tml"</font><b><font color="#0000FF">&gt;</font></b>pagerformat="Page $currentpage of $numberofpages <u><font color="#0000FF">[[$nexturl][next page]]</font></u>"<b><font color="#0000FF">&lt;/verbatim&gt;</font></b>
+
+Format tokens that can be used in the pagerformat string:
+
+| *Name:* | *Expands To:* |
+| =$previouspage= | The page number before the currently displayed one |
+| =$currentpage= | The currently displayed page number |
+| =$nextpage= | The page number after the currently displayed one  |
+| =$numberofpages= | Total number of pages there are results for |
+| =$pagesize= | The number of results per page |
+| =$previousurl= | full URL to the previous page - _IF_ using the built in pager system |
+| =$nexturl= | full URL to the previous page - _IF_ using the built in pager system |
+| =$previousbutton= | skin template (SEARCH:pager_previous) html for the full URL to the previous page - _IF_ using the built in pager system |
+| =$nextbutton= | skin template (SEARCH:pager_next) html for the full URL to the previous page - _IF_ using the built in pager system |
+<b><font color="#0000FF">%INCLUDE{</font></b><font color="#FF0000">"FormatTokens"</font><b><font color="#0000FF">}%</font></b>
+
+<b><font color="#000080">---+++</font></b> 4. =format="..."= parameter
+
+Use the format parameter to specify the format of one search hit.
+*Example:* <b><font color="#0000FF">&lt;verbatim</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"tml"</font><b><font color="#0000FF">&gt;</font></b>format="| $topic | $summary |"<b><font color="#0000FF">&lt;/verbatim&gt;</font></b>
+
+Format tokens that can be used in the format string:
+
+| *Name:* | *Expands To:* |
+| =$web= | Name of the web |
+| =$topic= | Topic name |
+| =$topic(20)= | Topic name, "<b><font color="#0000FF">&lt;tt&gt;</font></b>- <b><font color="#0000FF">&lt;/tt&gt;</font></b>" hyphenated every 20 characters |
+| =$topic(30, -<b><font color="#000080">&amp;lt;</font></b>br /<b><font color="#000080">&amp;gt;</font></b>)= | Topic name, hyphenated every 30 characters with separator "<b><font color="#0000FF">&lt;tt&gt;</font></b>-<b><font color="#000080">&amp;lt;</font></b>br /<b><font color="#000080">&amp;gt;</font></b><b><font color="#0000FF">&lt;/tt&gt;</font></b>" |
+| =$topic(40, ...)= | Topic name, shortened to 40 characters with trailing ellipsis. |
+| =$parent= | Name of parent topic; empty if not set |
+| =$parent(20)= | Name of parent topic, same hyphenation/shortening as =$topic()= |
+| =$text= | Formatted topic text. In case of a =multiple="on"= search, it is the line found for each search hit. |
+| =$locked= | LOCKED flag (if any) |
+| =$date= | Time stamp of last topic update, e.g. =<b><font color="#0000FF">%GMTIME{</font></b><font color="#FF0000">"</font><b><font color="#000000">$day</font></b><font color="#FF0000"> </font><b><font color="#000000">$mon</font></b><font color="#FF0000"> </font><b><font color="#000000">$year</font></b><font color="#FF0000"> - </font><b><font color="#000000">$hour</font></b><font color="#FF0000">:</font><b><font color="#000000">$min</font></b><font color="#FF0000">"</font><b><font color="#0000FF">}%</font></b>= |
+| =$isodate= | Time stamp of last topic update, e.g. =<b><font color="#0000FF">%GMTIME{</font></b><font color="#FF0000">"</font><b><font color="#000000">$year</font></b><font color="#FF0000">-</font><b><font color="#000000">$mo</font></b><font color="#FF0000">-</font><b><font color="#000000">$dayT$hour</font></b><font color="#FF0000">:</font><b><font color="#000000">$minZ</font></b><font color="#FF0000">"</font><b><font color="#0000FF">}%</font></b>= |
+| =$index= | number of total results - can be used as a running counter in the =format=, or in the =footer=. This $index is not affected by web based partitioning of results. |
+| =$item= | the full name of a result item - in a SEARCH context, equivalent to =$web.$topic= |
+| =$rev= | Number of last topic revision, e.g. =4= |
+| =$username= | Login name of last topic update, e.g. =jsmith= |
+| =$wikiname= | Wiki user name of last topic update, e.g. =<b><font color="#000080">&lt;nop&gt;</font></b>JohnSmith= |
+| =$wikiusername= | Wiki user name of last topic update, like =<b><font color="#0000FF">%USERSWEB%</font></b>.<b><font color="#000080">&lt;nop&gt;</font></b>JohnSmith= |
+| =$createdate= | Time stamp of topic revision 1 |
+| =$createusername= | Login name of topic revision 1, e.g. =jsmith= |
+| =$createwikiname= | Wiki user name of topic revision 1, e.g. =<b><font color="#000080">&lt;nop&gt;</font></b>JohnSmith= |
+| =$createwikiusername= | Wiki user name of topic revision 1, e.g. =<b><font color="#0000FF">%USERSWEB%</font></b>.<b><font color="#000080">&lt;nop&gt;</font></b>JohnSmith= |
+| =$summary= | Topic summary, just the plain text, all formatting and line breaks removed; up to 162 characters |
+| =$summary(50)= | Topic summary, up to 50 characters shown |
+| =$summary(showvarnames)= | Topic summary, with =%<b><font color="#000080">&lt;nop&gt;</font></b>SOMEMACRO{...}%= macros shown as =SOMEMACRO{...}= |
+| =$summary(noheader)= | Topic summary, with leading =---+ headers= removed<b><font color="#0000FF">%BR%</font></b> *Note:* The tokens can be combined, for example =$summary(100, showvarnames, noheader)= |
+| =$summary(searchcontext)= | Creates a topic summary with the search terms highlighted |
+| =$summary(searchcontext, 50)= | Creates a topic summary with the search terms highlighted, up to 50 characters |
+| =$changes= | Summary of changes between latest rev and previous rev |
+| =$changes(n)= | Summary of changes between latest rev and rev n |
+| =$formname= | The name of the form attached to the topic; empty if none |
+| =$formfield(name)= | The field value of a form field; for example, if FAQWhatIsWikiWiki was a search hit, =$formfield(<b><font color="#000080">&lt;nop&gt;</font></b>TopicClassification)= would get expanded to =<b><font color="#0000FF">%QUERY{</font></b><font color="#FF0000">"'WhatIsWikiWiki'/TopicClassification"</font><b><font color="#0000FF">}%</font></b>=. This applies only to topics that have a <u><font color="#0000FF">[[DataForms][DataForm]]</font></u>. For multi-line textfields new lines are replace by an HTML <b><font color="#000080">&amp;lt;</font></b>br /<b><font color="#000080">&amp;gt;</font></b> |
+| =$formfield(name, 10)= | Form field value, "<b><font color="#0000FF">&lt;tt&gt;</font></b>- <b><font color="#0000FF">&lt;/tt&gt;</font></b>" hyphenated every 10 characters |
+| =$formfield(name, 20, -<b><font color="#000080">&amp;lt;</font></b>br /<b><font color="#000080">&amp;gt;</font></b>)= | Form field value, hyphenated every 20 characters with separator "<b><font color="#0000FF">&lt;tt&gt;</font></b>-<b><font color="#000080">&amp;lt;</font></b>br /<b><font color="#000080">&amp;gt;</font></b><b><font color="#0000FF">&lt;/tt&gt;</font></b>" |
+| =$formfield(name,30,...)= | Form field value, shortened to 30 characters with trailing ellipsis. |
+| =$pattern(reg-exp)= | A regular expression pattern to extract some text from a topic (does not search meta data; use =$formfield= instead). In case of a =multiple="on"= search, the pattern is applied to the line found in each search hit.<b><font color="#0000FF">%BB%</font></b> Specify a RegularExpression that covers the whole text (topic or line), which typically starts with =.*=, and must end in =.*= <b><font color="#0000FF">%BB%</font></b> Put text you want to keep in parenthesis, like =$pattern(.*?(from here.*?to here).*)= <b><font color="#0000FF">%BB%</font></b> Example: =$pattern(.*?\*.*?Email\:\s*([^\n\r]+).*)= extracts the e-mail address from a bullet of format =* Email: ...= <b><font color="#0000FF">%BB%</font></b> This example has non-greedy =.*?= patterns to scan for the first occurance of the Email bullet; use greedy =.*= patterns to scan for the last occurance <b><font color="#0000FF">%BB%</font></b> Limitation: Do not use =.*)= inside the pattern, e.g. =$pattern(.*foo(.*)bar.*)= does not work, but =$pattern(.*foo(.*?)bar.*)= does <b><font color="#0000FF">%BB%</font></b> Note: Make sure that the integrity of a web page is not compromised; for example, if you include an HTML table make sure to include everything including the table end tag |
+| =$count(reg-exp)= | Count of number of times a regular expression pattern appears in the text of a topic (does not search meta data). Follows guidelines for use and limitations outlined above under =$pattern(reg-exp)=. Example: =$count(.*?(---[+][+][+][+]) .*)= counts the number of <b><font color="#000080">&amp;lt;</font></b>H4<b><font color="#000080">&amp;gt;</font></b> headers in a page. |
+| =$ntopics= | Number of topics found in current web. This is the current topic count, not the total number of topics |
+| =$nhits= | Number of hits if =multiple="on"=. Cumulative across all topics in current web. Identical to =$ntopics= unless =multiple="on"= |
+| =$pager= | pager control - can be optionally customised using the =pagerformat= below |
+<b><font color="#0000FF">%INCLUDE{</font></b><font color="#FF0000">"FormatTokens"</font><b><font color="#0000FF">}%</font></b>
+
+<b><font color="#000080">---++</font></b> Examples
+
+Here are some samples of formatted searches. The SearchPatternCookbook has other examples, such as <u><font color="#0000FF">[[SearchPatternCookbook#SearchUsernames][creating a picklist of usernames]]</font></u>, <u><font color="#0000FF">[[SearchPatternCookbook#SearchTopicChildren][searching for topic children]]</font></u> and more.
+
+#SearchTable
+<b><font color="#000080">---+++</font></b> Search showing topic name and summary
+
+*Write this:*
+
+<b><font color="#0000FF">&lt;verbatim</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"tml"</font><b><font color="#0000FF">&gt;%SEARCH{</font></b>
+<b><font color="#0000FF">   </font></b><font color="#FF0000">"VarREMOTE"</font>
+<b><font color="#0000FF">   </font></b><font color="#009900">scope=</font><font color="#FF0000">"topic"</font>
+<b><font color="#0000FF">   </font></b><font color="#009900">nonoise=</font><font color="#FF0000">"on"</font>
+<b><font color="#0000FF">   </font></b><font color="#009900">header=</font><font color="#FF0000">"| *Topic*        | *Summary*  |"</font>
+<b><font color="#0000FF">   </font></b><font color="#009900">format=</font><font color="#FF0000">"| </font><u><font color="#0000FF">[[</font></u><b><font color="#000000">$topic</font></b><u><font color="#0000FF">]]</font></u><font color="#FF0000">     | </font><b><font color="#000000">$summary</font></b><font color="#FF0000">   |"</font>
+<b><font color="#0000FF">   </font></b><font color="#009900">footer=</font><font color="#FF0000">"| *Topics found* | *</font><b><font color="#000000">$ntopics</font></b><font color="#FF0000">* |"</font>
+<b><font color="#0000FF">}%&lt;/verbatim&gt;</font></b>
+
+*To get this:*
+
+<b><font color="#0000FF">%SEARCH{</font></b>
+<b><font color="#0000FF">   </font></b><font color="#FF0000">"VarREMOTE"</font>
+<b><font color="#0000FF">   </font></b><font color="#009900">scope=</font><font color="#FF0000">"topic"</font>
+<b><font color="#0000FF">   </font></b><font color="#009900">nonoise=</font><font color="#FF0000">"on"</font>
+<b><font color="#0000FF">   </font></b><font color="#009900">header=</font><font color="#FF0000">"| *Topic*        | *Summary*  |"</font>
+<b><font color="#0000FF">   </font></b><font color="#009900">format=</font><font color="#FF0000">"| </font><u><font color="#0000FF">[[</font></u><b><font color="#000000">$topic</font></b><u><font color="#0000FF">]]</font></u><font color="#FF0000">     | </font><b><font color="#000000">$summary</font></b><font color="#FF0000">   |"</font>
+<b><font color="#0000FF">   </font></b><font color="#009900">footer=</font><font color="#FF0000">"| *Topics found* | *</font><b><font color="#000000">$ntopics</font></b><font color="#FF0000">* |"</font>
+<b><font color="#0000FF">}%</font></b>
+
+<b><font color="#000080">---+++</font></b> Table showing form field values of topics with a form
+
+In a web where there is a form that contains a =Topic<b><font color="#000080">&lt;nop&gt;</font></b>Classification= field, an =Operating<b><font color="#000080">&lt;nop&gt;</font></b>System= field and an =Os<b><font color="#000080">&lt;nop&gt;</font></b>Version= field we could write:
+
+<b><font color="#0000FF">&lt;verbatim</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"tml"</font><b><font color="#0000FF">&gt;</font></b>
+| *Topic:* | *!OperatingSystem:* | *!OsVersion:* |
+<b><font color="#0000FF">%SEARCH{</font></b>
+<b><font color="#0000FF">   </font></b><font color="#FF0000">"TopicClassification~'FrequentlyAskedQuestion'"</font>
+<b><font color="#0000FF">   </font></b><font color="#009900">type=</font><font color="#FF0000">"query"</font>
+<b><font color="#0000FF">   </font></b><font color="#009900">nonoise=</font><font color="#FF0000">"on"</font>
+<b><font color="#0000FF">   </font></b><font color="#009900">format=</font><font color="#FF0000">"| </font><u><font color="#0000FF">[[</font></u><b><font color="#000000">$topic</font></b><u><font color="#0000FF">]]</font></u><font color="#FF0000"> | </font><b><font color="#000000">$formfield(</font></b><font color="#008080">OperatingSystem</font><b><font color="#000000">)</font></b><font color="#FF0000"> | </font><b><font color="#000000">$formfield(</font></b><font color="#008080">OsVersion</font><b><font color="#000000">)</font></b><font color="#FF0000"> |"</font>
+<b><font color="#0000FF">}%&lt;/verbatim&gt;</font></b>
+
+To get this (simulated):
+
+<b><font color="#0000FF">&lt;table</font></b> <font color="#009900">border</font><font color="#990000">=</font><font color="#FF0000">"1"</font> <font color="#009900">rules</font><font color="#990000">=</font><font color="#FF0000">"none"</font> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"foswikiTable"</font> <b><font color="#0000FF">&gt;</font></b>
+<b><font color="#0000FF">&lt;thead&gt;</font></b>
+  <b><font color="#0000FF">&lt;tr</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0"</font><b><font color="#0000FF">&gt;</font></b>
+    <b><font color="#0000FF">&lt;th&gt;</font></b> <b><font color="#0000FF">&lt;strong&gt;</font></b>Topic:<b><font color="#0000FF">&lt;/strong&gt;</font></b> <b><font color="#0000FF">&lt;/th&gt;</font></b>
+    <b><font color="#0000FF">&lt;th&gt;</font></b> <b><font color="#0000FF">&lt;strong&gt;</font></b>OperatingSystem:<b><font color="#0000FF">&lt;/strong&gt;</font></b> <b><font color="#0000FF">&lt;/th&gt;</font></b>
+    <b><font color="#0000FF">&lt;th&gt;</font></b> <b><font color="#0000FF">&lt;strong&gt;</font></b>OsVersion:<b><font color="#0000FF">&lt;/strong&gt;</font></b> <b><font color="#0000FF">&lt;/th&gt;&lt;/tr&gt;</font></b>
+<b><font color="#0000FF">&lt;/thead&gt;</font></b>
+<b><font color="#0000FF">&lt;tbody&gt;</font></b>
+  <b><font color="#0000FF">&lt;tr</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"foswikiTableOdd foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1"</font><b><font color="#0000FF">&gt;</font></b>
+    <b><font color="#0000FF">&lt;td&gt;</font></b>  <b><font color="#0000FF">&lt;a</font></b> <font color="#009900">href</font><font color="#990000">=</font><font color="#FF0000">"%SCRIPTURLPATH{"</font><font color="#009900">view</font><font color="#FF0000">"}%/Sandbox/IncorrectDllVersionW32PTH10DLL"</font><b><font color="#0000FF">&gt;</font></b>IncorrectDllVersionW32PTH10DLL<b><font color="#0000FF">&lt;/a&gt;</font></b>  <b><font color="#0000FF">&lt;/td&gt;</font></b>
+    <b><font color="#0000FF">&lt;td&gt;</font></b>  <b><font color="#0000FF">&lt;a</font></b> <font color="#009900">href</font><font color="#990000">=</font><font color="#FF0000">"%SCRIPTURLPATH{"</font><font color="#009900">view</font><font color="#FF0000">"}%/Sandbox/OsWin"</font><b><font color="#0000FF">&gt;</font></b>OsWin<b><font color="#0000FF">&lt;/a&gt;</font></b>  <b><font color="#0000FF">&lt;/td&gt;</font></b>
+    <b><font color="#0000FF">&lt;td&gt;</font></b>  95/98  <b><font color="#0000FF">&lt;/td&gt;</font></b>
+  <b><font color="#0000FF">&lt;/tr&gt;</font></b>
+  <b><font color="#0000FF">&lt;tr</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0"</font><b><font color="#0000FF">&gt;</font></b>
+     <b><font color="#0000FF">&lt;td&gt;</font></b>  <b><font color="#0000FF">&lt;a</font></b> <font color="#009900">href</font><font color="#990000">=</font><font color="#FF0000">"%SCRIPTURLPATH{"</font><font color="#009900">view</font><font color="#FF0000">"}%/Sandbox/WinDoze95Crash"</font><b><font color="#0000FF">&gt;</font></b>WinDoze95Crash<b><font color="#0000FF">&lt;/a&gt;</font></b>  <b><font color="#0000FF">&lt;/td&gt;</font></b>
+     <b><font color="#0000FF">&lt;td&gt;</font></b>  <b><font color="#0000FF">&lt;a</font></b> <font color="#009900">href</font><font color="#990000">=</font><font color="#FF0000">"%SCRIPTURLPATH{"</font><font color="#009900">view</font><font color="#FF0000">"}%/Sandbox/OsWin"</font><b><font color="#0000FF">&gt;</font></b>OsWin<b><font color="#0000FF">&lt;/a&gt;</font></b>  <b><font color="#0000FF">&lt;/td&gt;</font></b>
+     <b><font color="#0000FF">&lt;td&gt;</font></b>  95  <b><font color="#0000FF">&lt;/td&gt;</font></b>
+  <b><font color="#0000FF">&lt;/tr&gt;</font></b>
+<b><font color="#0000FF">&lt;/tbody&gt;</font></b>
+<b><font color="#0000FF">&lt;/table&gt;</font></b>
+
+<b><font color="#000080">---+++</font></b> Extract some text from a topic using regular expression
+The following example makes use of the =$pattern()= token to extract the first level-1 heading for each topic:
+
+<b><font color="#0000FF">%INCLUDE{</font></b><font color="#FF0000">"SearchPatternCookbook"</font><b><font color="#0000FF"> </font></b><font color="#009900">section=</font><font color="#FF0000">"Headings"</font><b><font color="#0000FF">}%</font></b>
+
+#NestedSearch
+<b><font color="#000080">---+++</font></b> Nested Search
+<u><font color="#0000FF">[[VarSEARCH][SEARCH]]</font></u> is one of many <u><font color="#0000FF">[[Macros][macros]]</font></u> that produce output which may be controlled with =format=, =header= and =footer= parameters, among others. To make use of _additional_ macros in the output, familiarity with <u><font color="#0000FF">[[#InsideOutLeftToRight][inside-out, left-to-right]]</font></u> order of expansion rules is required. There are two forms:
+   1 Standard: Use =%<b><font color="#000080">&lt;nop&gt;</font></b>INNERMACRO%= to build the parameter string *before* =%<b><font color="#000080">&lt;nop&gt;</font></b>OUTERMACRO%= is expanded
+   <b><font color="#0000FF">&lt;verbatim</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"tml"</font><b><font color="#0000FF">&gt;</font></b> <b><font color="#0000FF">%OUTERMACRO{</font></b>
+<b><font color="#0000FF">   </font></b><font color="#009900">format=</font><font color="#FF0000">"</font><b><font color="#0000FF">%INNERMACRO%</font></b><font color="#FF0000">"</font>
+<b><font color="#0000FF"> }%&lt;/verbatim&gt;</font></b>
+   1 Delayed: Use the parameter string to incorporate =%<b><font color="#000080">&lt;nop&gt;</font></b>INNERMACRO%= into the output of =%<b><font color="#000080">&lt;nop&gt;</font></b>OUTERMACRO%=
+   <b><font color="#0000FF">&lt;verbatim</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"tml"</font><b><font color="#0000FF">&gt;</font></b> <b><font color="#0000FF">%OUTERMACRO{</font></b>
+<b><font color="#0000FF">   </font></b><font color="#009900">format=</font><font color="#FF0000">"</font><b><font color="#0000FF">$percentINNERMACRO$percent</font></b><font color="#FF0000">"</font>
+<b><font color="#0000FF"> }%&lt;/verbatim&gt;</font></b>
+ <b><font color="#0000FF">%INCLUDE{</font></b><font color="#FF0000">"Macros"</font><b><font color="#0000FF"> </font></b><font color="#009900">section=</font><font color="#FF0000">"tokensupport"</font><b><font color="#0000FF">}%</font></b>
+
+<b><font color="#0000FF">%INCLUDE{</font></b><font color="#FF0000">"Macros"</font>
+<b><font color="#0000FF">  </font></b><font color="#009900">section=</font><font color="#FF0000">"insideoutlefttoright"</font>
+<b><font color="#0000FF">  </font></b><font color="#009900">THETOPIC=</font><font color="#FF0000">"</font><b><font color="#0000FF">%SYSTEMWEB%</font></b><font color="#FF0000">.FAQWhatIsWikiWiki"</font>
+<b><font color="#0000FF">  </font></b><font color="#009900">THEFIELD=</font><font color="#FF0000">"TopicClassification"</font>
+<b><font color="#0000FF">  </font></b><font color="#009900">PARENT=</font><font color="#FF0000">"UserDocumentationCategory"</font>
+<b><font color="#0000FF">}%</font></b>
+
+<b><font color="#000080">---++++</font></b> Worked example
+*Problem:* search for some topics in an initial (outer) search, and for each of them apply a second (inner) search. The idea is to use the outer search to build a series of inner seraches.
+
+#NestedSearchExample
+Consider the following example. Let's search for all topics that contain the word "culture" (outer search), and find out where each topic found is linked from (inner search).
+
+*Initial (outer) search:*
+   <b><font color="#0000FF">&lt;verbatim</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"tml"</font><b><font color="#0000FF">&gt;</font></b>
+<b><font color="#0000FF">%SEARCH{</font></b>
+<b><font color="#0000FF">   </font></b><font color="#FF0000">"culture"</font>
+<b><font color="#0000FF">   </font></b><font color="#009900">nonoise=</font><font color="#FF0000">"on"</font>
+<b><font color="#0000FF">   </font></b><font color="#009900">format=</font><font color="#FF0000">"   * </font><b><font color="#000000">$topic</font></b><font color="#FF0000"> is referenced by: (list all references)"</font>
+<b><font color="#0000FF">}%&lt;/verbatim&gt;</font></b>
+
+*Second (inner) search:*
+
+For each hit, we want this search:
+   <b><font color="#0000FF">&lt;verbatim</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"tml"</font><b><font color="#0000FF">&gt;</font></b>
+<b><font color="#0000FF">%SEARCH{</font></b>
+<b><font color="#0000FF">   </font></b><font color="#FF0000">"(topic found in outer search)"</font>
+<b><font color="#0000FF">   </font></b><font color="#009900">nonoise=</font><font color="#FF0000">"on"</font>
+<b><font color="#0000FF">   </font></b><font color="#009900">format=</font><font color="#FF0000">"</font><b><font color="#000000">$topic</font></b><font color="#FF0000">"</font>
+<b><font color="#0000FF">   </font></b><font color="#009900">separator=</font><font color="#FF0000">", "</font>
+<b><font color="#0000FF">}%&lt;/verbatim&gt;</font></b>
+
+Now let's nest the two.
+#NestingWithEscapes
+<b><font color="#000080">---+++++</font></b> Method 1 (nesting with escapes)
+The inner search cannot be placed directly into the format string of the outer, because of the "inside-out, left-to-right" macro expansion behaviour <u><font color="#0000FF">[[#InsideOutLeftToRight][discussed earlier]]</font></u>. It must be delayed so that the outer search is evaluated first. To do this, we need to escape the inner search, i.e. let the outer search build a series of searches comprised of the inner search.
+   * Use =$percent= to escape (delay) the inner search's <u><font color="#0000FF">[[VarSEARCH][SEARCH]]</font></u> macro
+   * Use =\"= to escape the double quotes
+   * Use =$dollar= to escape the =$= of =$topic=
+
+*Write this:*
+<b><font color="#0000FF">&lt;verbatim</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"tml"</font><b><font color="#0000FF">&gt;</font></b>
+<b><font color="#0000FF">%SEARCH{</font></b>
+<b><font color="#0000FF">   </font></b><font color="#FF0000">"culture"</font>
+<b><font color="#0000FF">   </font></b><font color="#009900">nonoise=</font><font color="#FF0000">"on"</font>
+<b><font color="#0000FF">   </font></b><font color="#009900">limit=</font><font color="#FF0000">"5"</font>
+<b><font color="#0000FF">   </font></b><font color="#009900">format=</font><font color="#FF0000">"\</font>
+<font color="#FF0000">   * </font><b><font color="#000000">$topic</font></b><font color="#FF0000"> is referenced by:</font>
+<font color="#FF0000">      * </font><b><font color="#0000FF">$percentSEARCH{</font></b>
+<b><font color="#0000FF">         </font></b><font color="#FF0000">\"</font><b><font color="#000000">$topic</font></b><font color="#FF0000">\"</font>
+<b><font color="#0000FF">         </font></b><font color="#009900">nonoise=</font><font color="#FF0000">\"on\"</font>
+<b><font color="#0000FF">         </font></b><font color="#009900">format=</font><font color="#FF0000">\"</font><b><font color="#000000">$dollartopic</font></b><font color="#FF0000">\"</font>
+<b><font color="#0000FF">         </font></b><font color="#009900">separator=</font><font color="#FF0000">\", \"</font>
+<b><font color="#0000FF">      }$percent</font></b><font color="#FF0000">"</font>
+<b><font color="#0000FF">}%</font></b>
+<b><font color="#0000FF">&lt;/verbatim&gt;</font></b>
+
+*To get this:*
+<b><font color="#0000FF">%SEARCH{</font></b>
+<b><font color="#0000FF">   </font></b><font color="#FF0000">"culture"</font>
+<b><font color="#0000FF">   </font></b><font color="#009900">nonoise=</font><font color="#FF0000">"on"</font>
+<b><font color="#0000FF">   </font></b><font color="#009900">limit=</font><font color="#FF0000">"5"</font>
+<b><font color="#0000FF">   </font></b><font color="#009900">format=</font><font color="#FF0000">"\</font>
+<font color="#FF0000">   * </font><b><font color="#000000">$topic</font></b><font color="#FF0000"> is referenced by:</font>
+<font color="#FF0000">      * </font><b><font color="#0000FF">$percentSEARCH{</font></b>
+<b><font color="#0000FF">         </font></b><font color="#FF0000">\"</font><b><font color="#000000">$topic</font></b><font color="#FF0000">\"</font>
+<b><font color="#0000FF">         </font></b><font color="#009900">nonoise=</font><font color="#FF0000">\"on\"</font>
+<b><font color="#0000FF">         </font></b><font color="#009900">format=</font><font color="#FF0000">\"</font><b><font color="#000000">$dollartopic</font></b><font color="#FF0000">\"</font>
+<b><font color="#0000FF">         </font></b><font color="#009900">separator=</font><font color="#FF0000">\", \"</font>
+<b><font color="#0000FF">      }$percent</font></b><font color="#FF0000">"</font>
+<b><font color="#0000FF">}%</font></b>
+
+<b><font color="#0000FF">&lt;blockquote</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"foswikiHelp"</font><b><font color="#0000FF">&gt;</font></b>
+<b><font color="#0000FF">%X%</font></b> When nesting with escapes, each new nesting level must "escape the escapes", e.g. write =$dollarpercentSEARCH{= for level three, =$dollardollarpercentSEARCH{= for level four, etc.
+<b><font color="#0000FF">&lt;/blockquote&gt;</font></b>
+
+#NestedSectionalInclude
+<b><font color="#000080">---+++++</font></b> Method 2 (nesting with sectional includes)
+Nested expressions with delayed macros can be difficult to write: care must be taken to escape all the quotes of the inner delayed macro, and it may become confusing whether to use =$topic=, =$dollartopic= or =$dollardollartopic=.
+
+If you find yourself using escaped tokens like =$dollartopic=, another approach is to use the <u><font color="#0000FF">[[VarSTARTSECTION][STARTSECTION]]</font></u>/<u><font color="#0000FF">[[VarENDSECTION][ENDSECTION]]</font></u> feature of <u><font color="#0000FF">[[VarINCLUDE][INCLUDE]]</font></u>. Instead of nesting the inner search expression directly inside the format string of the outer, the inner search is written as a separate stand-alone section of a topic which is INCLUDEd into the format string of the outer.
+
+*Write this:*
+<b><font color="#0000FF">&lt;verbatim</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"tml"</font><b><font color="#0000FF">&gt;</font></b>
+<b><font color="#0000FF">%SEARCH{</font></b>
+<b><font color="#0000FF">   </font></b><font color="#FF0000">"culture"</font>
+<b><font color="#0000FF">   </font></b><font color="#009900">nonoise=</font><font color="#FF0000">"on"</font>
+<b><font color="#0000FF">   </font></b><font color="#009900">limit=</font><font color="#FF0000">"5"</font>
+<b><font color="#0000FF">   </font></b><font color="#009900">format=</font><font color="#FF0000">"\</font>
+<font color="#FF0000">   * </font><b><font color="#000000">$topic</font></b><font color="#FF0000"> is referenced by:</font>
+<font color="#FF0000">      * </font><b><font color="#0000FF">$percentINCLUDE{</font></b><font color="#FF0000">\"</font><b><font color="#0000FF">%TOPIC%</font></b><font color="#FF0000">\"</font><b><font color="#0000FF"> </font></b><font color="#009900">section=</font><font color="#FF0000">\"mysearch\"</font><b><font color="#0000FF"> </font></b><font color="#009900">thetopic=</font><font color="#FF0000">\"</font><b><font color="#000000">$topic</font></b><font color="#FF0000">\"</font><b><font color="#0000FF">}$percent</font></b><font color="#FF0000">"</font>
+<b><font color="#0000FF">}%</font></b>
+
+<i><font color="#9A1900">&lt;!-- HTML comment to hide this section from the user and web browser's DOM.</font></i>
+<i><font color="#9A1900">     verbatim prevents the section being evaluated. Alternatively, sections</font></i>
+<i><font color="#9A1900">     like this can be placed into dedicated utility topics which may hold</font></i>
+<i><font color="#9A1900">     many such re-usable pieces of your wiki application</font></i>
+<i><font color="#9A1900">&lt;verbatim&gt;</font></i>
+<i><font color="#9A1900">%STARTSECTION{"mysearch"}%%SEARCH{</font></i>
+<i><font color="#9A1900">   "%thetopic%"</font></i>
+<i><font color="#9A1900">   nonoise="on"</font></i>
+<i><font color="#9A1900">   format="$topic"</font></i>
+<i><font color="#9A1900">   separator=", "</font></i>
+<i><font color="#9A1900">}%%ENDSECTION{"mysearch"}%</font></i>
+<i><font color="#9A1900">&lt;/verbatim&gt;</font></i>
+<i><font color="#9A1900">--&gt;</font></i>
+<b><font color="#0000FF">&lt;/verbatim&gt;</font></b>
+
+<b><font color="#0000FF">&lt;blockquote</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"foswikiHelp"</font><b><font color="#0000FF">&gt;%H%</font></b> Output will be the same as for the first method
+
+<b><font color="#0000FF">%X%</font></b> Nested search can be slow, especially if you nest more than 3 levels deep. Nesting is limited to 16 levels.<b><font color="#0000FF">&lt;/blockquote&gt;</font></b>
+
+<b><font color="#000080">---+++</font></b> Most recently changed pages
+
+*Write this:*
+<b><font color="#0000FF">&lt;verbatim</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"tml"</font><b><font color="#0000FF">&gt;</font></b>
+<b><font color="#0000FF">%SEARCH{</font></b>
+<b><font color="#0000FF">   </font></b><font color="#FF0000">"1"</font>
+<b><font color="#0000FF">   </font></b><font color="#009900">type=</font><font color="#FF0000">"query"</font>
+<b><font color="#0000FF">   </font></b><font color="#009900">nonoise=</font><font color="#FF0000">"on"</font>
+<b><font color="#0000FF">   </font></b><font color="#009900">order=</font><font color="#FF0000">"modified"</font>
+<b><font color="#0000FF">   </font></b><font color="#009900">reverse=</font><font color="#FF0000">"on"</font>
+<b><font color="#0000FF">   </font></b><font color="#009900">limit=</font><font color="#FF0000">"7"</font>
+<b><font color="#0000FF">   </font></b><font color="#009900">format=</font><font color="#FF0000">"| </font><u><font color="#0000FF">[[</font></u><b><font color="#000000">$topic</font></b><u><font color="#0000FF">]]</font></u><font color="#FF0000"> | </font><b><font color="#000000">$wikiusername</font></b><font color="#FF0000">  | </font><b><font color="#000000">$date</font></b><font color="#FF0000"> |"</font>
+<b><font color="#0000FF">}%&lt;/verbatim&gt;</font></b>
+
+*To get this:*
+<b><font color="#0000FF">%SEARCH{</font></b>
+<b><font color="#0000FF">   </font></b><font color="#FF0000">"1"</font>
+<b><font color="#0000FF">   </font></b><font color="#009900">type=</font><font color="#FF0000">"query"</font>
+<b><font color="#0000FF">   </font></b><font color="#009900">nonoise=</font><font color="#FF0000">"on"</font>
+<b><font color="#0000FF">   </font></b><font color="#009900">order=</font><font color="#FF0000">"modified"</font>
+<b><font color="#0000FF">   </font></b><font color="#009900">reverse=</font><font color="#FF0000">"on"</font>
+<b><font color="#0000FF">   </font></b><font color="#009900">limit=</font><font color="#FF0000">"7"</font>
+<b><font color="#0000FF">   </font></b><font color="#009900">format=</font><font color="#FF0000">"| </font><u><font color="#0000FF">[[</font></u><b><font color="#000000">$topic</font></b><u><font color="#0000FF">]]</font></u><font color="#FF0000"> | </font><b><font color="#000000">$wikiusername</font></b><font color="#FF0000">  | </font><b><font color="#000000">$date</font></b><font color="#FF0000"> |"</font>
+<b><font color="#0000FF">}%</font></b>
+
+#ConditionalOutputExample
+<b><font color="#000080">---+++</font></b> Search with conditional output
+
+Sometimes it may be desirable for each hit to be displayed differently depending on some criteria. For example, maybe you want to list 20 topics modified in 2009, but decorate the hits which are children of UserDocumentationCategory with an <b><font color="#0000FF">%ICON{</font></b><font color="#FF0000">"info"</font><b><font color="#0000FF">}%</font></b> icon.
+   1. Specify a search which returns the hits you need
+   1. For each search hit, test the condition that will influence the output using a nested <u><font color="#0000FF">[[VarIF][IF]]</font></u> <u><font color="#0000FF">[[IfStatements][statement]]</font></u>
+
+*Write this:*
+<b><font color="#0000FF">&lt;verbatim</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"tml"</font><b><font color="#0000FF">&gt;</font></b>
+<b><font color="#0000FF">%SEARCH{</font></b>
+<b><font color="#0000FF">   </font></b><font color="#FF0000">"info.date &gt;= d2n('2009-01-01') AND info.date &lt;= d2n('2009-12-31')"</font>
+<b><font color="#0000FF">   </font></b><font color="#009900">type=</font><font color="#FF0000">"query"</font>
+<b><font color="#0000FF">   </font></b><font color="#009900">limit=</font><font color="#FF0000">"20"</font>
+<b><font color="#0000FF">   </font></b><font color="#009900">format=</font><font color="#FF0000">"   * </font><b><font color="#0000FF">$percentICON{</font></b>
+<b><font color="#0000FF">      </font></b><font color="#FF0000">\"</font><b><font color="#0000FF">$percentIF{</font></b>
+<b><font color="#0000FF">         </font></b><font color="#FF0000">\"'</font><b><font color="#000000">$topic</font></b><font color="#FF0000">'/parent.name='UserDocumentationCategory'\"</font>
+<b><font color="#0000FF">         </font></b><font color="#009900">then=</font><font color="#FF0000">\"info\"</font>
+<b><font color="#0000FF">         </font></b><font color="#009900">else=</font><font color="#FF0000">\"gear\"</font>
+<b><font color="#0000FF">      }$percent</font></b><font color="#FF0000">\"</font>
+<b><font color="#0000FF">   }$percent</font></b><font color="#FF0000"> </font><u><font color="#0000FF">[[</font></u><b><font color="#000000">$topic</font></b><u><font color="#0000FF">]]</font></u><font color="#FF0000">"</font>
+<b><font color="#0000FF">}%&lt;/verbatim&gt;</font></b>
+<b><font color="#0000FF">&lt;blockquote</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"foswikiHelp"</font><b><font color="#0000FF">&gt;</font></b>
+<b><font color="#0000FF">%ICON{</font></b><font color="#FF0000">"info"</font><b><font color="#0000FF">}%</font></b> *Details:*
+   * The SEARCH has a delayed <u><font color="#0000FF">[[VarICON][ICON]]</font></u>. The =$percent= ensures that ICON is evaluated once for each search hit
+   * The <u><font color="#0000FF">[[VarICON][ICON]]</font></u> contains an <u><font color="#0000FF">[[VarIF][IF]]</font></u>, which again is delayed with the =$percent= token and will also be evaluated for each SEARCH hit. Additionally, the <u><font color="#0000FF">[[#InsideOutLeftToRight][inside-out, left-to-right]]</font></u> rule discussed earlier means that this IF expression will be evaluated before <u><font color="#0000FF">[[VarICON][ICON]]</font></u>.
+   * If =$topic= is a child of UserDocumentationCategory, the =info= icon is used; otherwise, =gear=.
+<b><font color="#0000FF">&lt;/blockquote&gt;</font></b>
+*To get this:*
+<b><font color="#0000FF">%SEARCH{</font></b>
+<b><font color="#0000FF">   </font></b><font color="#FF0000">"info.date &gt;= d2n('2009-01-01') AND info.date &lt;= d2n('2009-12-31')"</font>
+<b><font color="#0000FF">   </font></b><font color="#009900">type=</font><font color="#FF0000">"query"</font>
+<b><font color="#0000FF">   </font></b><font color="#009900">limit=</font><font color="#FF0000">"20"</font>
+<b><font color="#0000FF">   </font></b><font color="#009900">format=</font><font color="#FF0000">"   * </font><b><font color="#0000FF">$percentICON{</font></b>
+<b><font color="#0000FF">      </font></b><font color="#FF0000">\"</font><b><font color="#0000FF">$percentIF{</font></b>
+<b><font color="#0000FF">         </font></b><font color="#FF0000">\"'</font><b><font color="#000000">$topic</font></b><font color="#FF0000">'/parent.name='UserDocumentationCategory'\"</font>
+<b><font color="#0000FF">         </font></b><font color="#009900">then=</font><font color="#FF0000">\"info\"</font>
+<b><font color="#0000FF">         </font></b><font color="#009900">else=</font><font color="#FF0000">\"gear\"</font>
+<b><font color="#0000FF">      }$percent</font></b><font color="#FF0000">\"</font>
+<b><font color="#0000FF">   }$percent</font></b><font color="#FF0000"> </font><u><font color="#0000FF">[[</font></u><b><font color="#000000">$topic</font></b><u><font color="#0000FF">]]</font></u><font color="#FF0000">"</font>
+<b><font color="#0000FF">}%</font></b>
+
+<b><font color="#000080">---+++</font></b> Embedding search forms to return a formatted result
+
+Use an HTML form and an embedded formatted search on the same topic. You can link them together with an <u><font color="#0000FF">[[VarURLPARAM][URLPARAM]]</font></u> macro. Example:
+
+*Write this:*
+<b><font color="#0000FF">&lt;verbatim</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"tml"</font><b><font color="#0000FF">&gt;</font></b>
+<b><font color="#0000FF">&lt;form</font></b> <font color="#009900">action</font><font color="#990000">=</font><font color="#FF0000">"%SCRIPTURLPATH{"</font><font color="#009900">view</font><font color="#FF0000">"}%/%WEB%/%TOPIC%"</font><b><font color="#0000FF">&gt;</font></b>
+Find Topics:
+<b><font color="#0000FF">&lt;input</font></b> <font color="#009900">type</font><font color="#990000">=</font><font color="#FF0000">"text"</font> <font color="#009900">name</font><font color="#990000">=</font><font color="#FF0000">"q"</font> <font color="#009900">size</font><font color="#990000">=</font><font color="#FF0000">"32"</font>\
+  <font color="#009900">value</font><font color="#990000">=</font><font color="#FF0000">"%URLPARAM{"</font><font color="#009900">q</font><font color="#FF0000">" encode="</font><font color="#009900">entity</font><font color="#FF0000">"}%"</font> <b><font color="#0000FF">/&gt;</font></b><b><font color="#000080">&amp;nbsp;</font></b><b><font color="#0000FF">&lt;input</font></b>\
+  <font color="#009900">type</font><font color="#990000">=</font><font color="#FF0000">"submit"</font> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"foswikiSubmit"</font> <font color="#009900">value</font><font color="#990000">=</font><font color="#FF0000">"Search"</font> <b><font color="#0000FF">/&gt;</font></b>
+<b><font color="#0000FF">&lt;/form&gt;</font></b>
+
+Result:
+<b><font color="#0000FF">%SEARCH{</font></b>
+<b><font color="#0000FF">   </font></b><font color="#FF0000">"</font><b><font color="#0000FF">%URLPARAM{</font></b><font color="#FF0000">"q"</font><b><font color="#0000FF"> </font></b><font color="#009900">encode=</font><font color="#FF0000">"quote"</font><b><font color="#0000FF">}%</font></b><font color="#FF0000">"</font>
+<b><font color="#0000FF">   </font></b><font color="#009900">type=</font><font color="#FF0000">"keyword"</font>
+<b><font color="#0000FF">   </font></b><font color="#009900">nosearch=</font><font color="#FF0000">"on"</font>
+<b><font color="#0000FF">   </font></b><font color="#009900">format=</font><font color="#FF0000">"   * </font><b><font color="#000000">$web</font></b><font color="#FF0000">.</font><b><font color="#000000">$topic</font></b><font color="#FF0000">: </font><b><font color="#0000FF">%BR%</font></b><font color="#FF0000"> </font><b><font color="#000000">$summary</font></b><font color="#FF0000">"</font>
+<b><font color="#0000FF">}%</font></b>
+<b><font color="#0000FF">&lt;/verbatim&gt;</font></b>
+
+#FormSearchExample
+*To get this:*
+<b><font color="#0000FF">&lt;form</font></b> <font color="#009900">action</font><font color="#990000">=</font><font color="#FF0000">"%SCRIPTURLPATH{"</font><font color="#009900">view</font><font color="#FF0000">"}%/%WEB%/%TOPIC%#FormSearchExample"</font><b><font color="#0000FF">&gt;</font></b>
+Find Topics: 
+<b><font color="#0000FF">&lt;input</font></b> <font color="#009900">type</font><font color="#990000">=</font><font color="#FF0000">"text"</font> <font color="#009900">name</font><font color="#990000">=</font><font color="#FF0000">"q"</font> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"foswikiInputField"</font> <font color="#009900">size</font><font color="#990000">=</font><font color="#FF0000">"32"</font>\
+  <font color="#009900">value</font><font color="#990000">=</font><font color="#FF0000">"%URLPARAM{"</font><font color="#009900">q</font><font color="#FF0000">" encode="</font><font color="#009900">entity</font><font color="#FF0000">"}%"</font> <b><font color="#0000FF">/&gt;</font></b><b><font color="#000080">&amp;nbsp;</font></b><b><font color="#0000FF">&lt;input</font></b>\
+  <font color="#009900">type</font><font color="#990000">=</font><font color="#FF0000">"submit"</font> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"foswikiSubmit"</font> <font color="#009900">value</font><font color="#990000">=</font><font color="#FF0000">"Search"</font> <b><font color="#0000FF">/&gt;</font></b>
+<b><font color="#0000FF">&lt;/form&gt;</font></b>
+
+Result:
+<b><font color="#0000FF">%SEARCH{</font></b>
+<b><font color="#0000FF">   </font></b><font color="#FF0000">"</font><b><font color="#0000FF">%URLPARAM{</font></b><font color="#FF0000">"q"</font><b><font color="#0000FF"> </font></b><font color="#009900">encode=</font><font color="#FF0000">"quote"</font><b><font color="#0000FF">}%</font></b><font color="#FF0000">"</font>
+<b><font color="#0000FF">   </font></b><font color="#009900">type=</font><font color="#FF0000">"keyword"</font>
+<b><font color="#0000FF">   </font></b><font color="#009900">nosearch=</font><font color="#FF0000">"on"</font>
+<b><font color="#0000FF">   </font></b><font color="#009900">format=</font><font color="#FF0000">"   * </font><b><font color="#000000">$web</font></b><font color="#FF0000">.</font><b><font color="#000000">$topic</font></b><font color="#FF0000">: </font><b><font color="#0000FF">%BR%</font></b><font color="#FF0000"> </font><b><font color="#000000">$summary</font></b><font color="#FF0000">"</font>
+<b><font color="#0000FF">}%</font></b>
+
+---
+*Related Topics:* UserDocumentationCategory, SearchHelp, <u><font color="#0000FF">[[</font></u><b><font color="#0000FF">%SYSTEMWEB%</font></b><u><font color="#0000FF">.Macros#VarSEARCH][Macros#VarSEARCH]]</font></u>, SearchPatternCookbook, RegularExpression
+<i><font color="#9A1900">&lt;!-- %JQREQUIRE{"chili"}% --&gt;</font></i>
+</tt></pre>

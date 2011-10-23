@@ -1,0 +1,357 @@
+<!-- Generator: GNU source-highlight 3.1.4
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><b><font color="#0000FF">%META:TOPICINFO{</font></b><font color="#009900">author=</font><font color="#FF0000">"ProjectContributor"</font><b><font color="#0000FF"> </font></b><font color="#009900">date=</font><font color="#FF0000">"1318089733"</font><b><font color="#0000FF"> </font></b><font color="#009900">format=</font><font color="#FF0000">"1.1"</font><b><font color="#0000FF"> </font></b><font color="#009900">version=</font><font color="#FF0000">"1"</font><b><font color="#0000FF">}%</font></b>
+<b><font color="#0000FF">%META:TOPICPARENT{</font></b><font color="#009900">name=</font><font color="#FF0000">"WebHome"</font><b><font color="#0000FF">}%</font></b>
+<b><font color="#0000FF">%STARTINCLUDE%</font></b>
+<b><font color="#000080">---+</font></b> Macros
+
+_Special text strings expand on the fly to display user data or system info_
+
+Macros are text strings in one of two forms:
+
+<b><font color="#0000FF">&lt;verbatim</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"tml"</font><b><font color="#0000FF">&gt;</font></b>
+<b><font color="#0000FF">%MACRONAME%</font></b>
+<b><font color="#0000FF">%MACRONAME{ </font></b><font color="#009900">parameter=</font><font color="#FF0000">"value"</font><b><font color="#0000FF"> }%</font></b>
+<b><font color="#0000FF">&lt;/verbatim&gt;</font></b>
+
+These usually expand into content when a topic is rendered for viewing. There are two types of macros:
+   1 <u><font color="#0000FF">[[PreferenceSettings][Preference settings]]</font></u>: May be defined and modified by the user
+   1 Registered macros: Defined by the system or by Plugins (for example, the SpreadSheetPlugin introduces a =%<b><font color="#000080">&lt;nop&gt;</font></b>CALC{}%= macro)
+
+<b><font color="#0000FF">%TOC%</font></b>
+
+<b><font color="#000080">---++</font></b> Using Macros
+
+To use a macro type its name. For example,
+   * type =%<b><font color="#000080">&lt;nop&gt;</font></b>T%= to get <b><font color="#0000FF">%T%</font></b> (a <u><font color="#0000FF">[[</font></u><b><font color="#0000FF">%SYSTEMWEB%</font></b><u><font color="#0000FF">.PreferenceSettings][preference settings]]</font></u>)
+   * type =%<b><font color="#000080">&lt;nop&gt;</font></b>TOPIC%= to get =<b><font color="#0000FF">%TOPIC%</font></b>= (a predefined <u><font color="#0000FF">[[VarTOPIC][macro]]</font></u>)
+   * type =%<b><font color="#000080">&lt;nop&gt;</font></b>CALC{ "$UPPER(Text)" }%= to get =TEXT= (<u><font color="#0000FF">[[VarCALC][CALC]]</font></u> is a macro defined by <u><font color="#0000FF">[[SpreadSheetPlugin]]</font></u>)
+
+*Note:*
+   * To leave a macro unexpanded, precede it with an exclamation point, e.g. type =!%<b><font color="#000080">&lt;nop&gt;</font></b>TOPIC%= to get =%<b><font color="#000080">&lt;nop&gt;</font></b>TOPIC%=
+      * Alternatively, insert a =<b><font color="#000080">&amp;lt;</font></b>nop<b><font color="#000080">&amp;gt;</font></b>= anywhere in the macro, Eg. =%<b><font color="#000080">&amp;lt;</font></b>nop<b><font color="#000080">&amp;gt;</font></b>TOPIC%=
+   * Macros are expanded relative to the topic they are _used_ in, not the topic they are _defined_ in
+   * Type =%<b><font color="#000080">&lt;nop&gt;</font></b>ALLVARIABLES%= to get a full listing of all macros defined for a particular topic
+   * If a macro is not defined, then it will be left in the text _unless_ it is called with a =default= parameter, in which case the value of the =default= parameter will replace the macro call in the output. For example, =%<b><font color="#000080">&lt;nop&gt;</font></b>UNDEFINED{default="blank"}%= will expand to =blank=.
+
+<b><font color="#000080">---+++</font></b> Order of expansion
+The following describes only these types of macros:
+   * <u><font color="#0000FF">[[PreferenceSettings][Preference settings]]</font></u>
+   * Most macros provided by plugins (those that use <u><font color="#0000FF">[[PerlDoc?module=Foswiki::Func#registerTagHandler][registerTagHandler()]]</font></u>)
+   <b><font color="#0000FF">&lt;blockquote</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"foswikiHelp"</font><b><font color="#0000FF">&gt;%X%</font></b> *Not* those that use <u><font color="#0000FF">[[PerlDoc?module=Foswiki::Func#commonTagsHandler][commonTagsHandler()]]</font></u><b><font color="#0000FF">&lt;/blockquote&gt;</font></b>
+   * Most built-in Foswiki macros
+   <b><font color="#0000FF">&lt;blockquote</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"foswikiHelp"</font><b><font color="#0000FF">&gt;%X%</font></b> Notable exceptions include: <u><font color="#0000FF">[[VarCALC][CALC]]</font></u>, <u><font color="#0000FF">[[VarSTARTSECTION][STARTSECTION]]</font></u>/ENDSECTION, <u><font color="#0000FF">[[VarSTARTINCLUDE][STARTINCLUDE]]</font></u>/STOPINCLUDE<b><font color="#0000FF">&lt;/blockquote&gt;</font></b>
+
+<b><font color="#0000FF">%STARTSECTION{</font></b><font color="#FF0000">"insideoutlefttoright"</font><b><font color="#0000FF">}%</font></b>
+#StandardForm
+<b><font color="#000080">---++++</font></b> Standard form
+#InsideOutLeftToRight
+The key to understanding nested expressions in Foswiki is to understand that macros are expanded "inside-out, left-to-right". *Example:*
+
+<b><font color="#0000FF">&lt;verbatim</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"tml"</font><b><font color="#0000FF">&gt;</font></b>
+<b><font color="#0000FF">%MACRO1{</font></b>
+<b><font color="#0000FF">   </font></b><font color="#009900">something=</font><font color="#FF0000">"</font><b><font color="#0000FF">%MACRO2{</font></b>
+<b><font color="#0000FF">      </font></b><font color="#009900">somethingelse=</font><font color="#FF0000">"</font><b><font color="#0000FF">%MACRO3%</font></b><font color="#FF0000">, </font><b><font color="#0000FF">%MACRO4%</font></b><font color="#FF0000">"</font>
+<b><font color="#0000FF">   }%</font></b><font color="#FF0000">"</font>
+<b><font color="#0000FF">}%</font></b>
+<b><font color="#0000FF">&lt;/verbatim&gt;</font></b>
+The macros are expanded in this order: MACRO3, MACRO4, MACRO2, MACRO1.
+
+#AnimatedExample
+<b><font color="#000080">---+++++</font></b> Animated Example
+<b><font color="#0000FF">%JQREQUIRE{</font></b><font color="#FF0000">"CYCLE,EASING,CHILI"</font><b><font color="#0000FF">}%</font></b><i><font color="#9A1900">&lt;!-- ids are appended with %INCLUDINGTOPIC%</font></i>
+<i><font color="#9A1900">to avoid duplicates in System.CompleteDocumentation --&gt;</font></i><b><font color="#0000FF">%ADDTOZONE{</font></b><font color="#FF0000">"script"</font>
+<b><font color="#0000FF">  </font></b><font color="#009900">id=</font><font color="#FF0000">"NestedSlideshow</font><b><font color="#0000FF">%INCLUDINGTOPIC%</font></b><font color="#FF0000">"</font>
+<b><font color="#0000FF">  </font></b><font color="#009900">text=</font><font color="#FF0000">"&lt;script type='text/javascript'&gt;</font>
+<font color="#FF0000">jQuery(document).ready(function($) {</font>
+<font color="#FF0000">    $('#NestedSlideshow</font><b><font color="#0000FF">%INCLUDINGTOPIC%</font></b><font color="#FF0000">').cycle({</font>
+<font color="#FF0000">        fx:     'fade',</font>
+<font color="#FF0000">        speed:  'slow',</font>
+<font color="#FF0000">        timeout: 5000,</font>
+<font color="#FF0000">        pager:  '#NestedSlideshowNav</font><b><font color="#0000FF">%INCLUDINGTOPIC%</font></b><font color="#FF0000">',</font>
+<font color="#FF0000">        slideExpr: 'pre',</font>
+<font color="#FF0000">        pause:  true,</font>
+<font color="#FF0000">        pauseOnPagerHover: true</font>
+<font color="#FF0000">    });</font>
+<font color="#FF0000">});</font>
+<font color="#FF0000">&lt;/script&gt;"</font>
+<b><font color="#0000FF">  </font></b><font color="#009900">requires=</font><font color="#FF0000">"JQUERYPLUGIN::CYCLE"</font>
+<b><font color="#0000FF">}%%ADDTOZONE{</font></b><font color="#FF0000">"head"</font>
+<b><font color="#0000FF">  </font></b><font color="#009900">id=</font><font color="#FF0000">"NestedSlideshow</font><b><font color="#0000FF">%INCLUDINGTOPIC%</font></b><font color="#FF0000">/css"</font>
+<b><font color="#0000FF">  </font></b><font color="#009900">text=</font><font color="#FF0000">"&lt;style type='text/css'&gt;</font>
+<font color="#FF0000">    #NestedSlideshowNav</font><b><font color="#0000FF">%INCLUDINGTOPIC%</font></b><font color="#FF0000">  a { margin: 0 10px 0 0; padding: 3px 5px; border: 1px solid #ddd; background: #fff; text-decoration: none }</font>
+<font color="#FF0000">    #NestedSlideshowNav</font><b><font color="#0000FF">%INCLUDINGTOPIC%</font></b><font color="#FF0000">  a.activeSlide,</font>
+<font color="#FF0000">    #NestedSlideshowNav</font><b><font color="#0000FF">%INCLUDINGTOPIC%</font></b><font color="#FF0000">  a:hover { background: #cff }</font>
+<font color="#FF0000">    #NestedSlideshowNav</font><b><font color="#0000FF">%INCLUDINGTOPIC%</font></b><font color="#FF0000">  a:focus { outline: none; }</font>
+<font color="#FF0000">  &lt;/style&gt;"</font>
+<b><font color="#0000FF">}%&lt;div</font></b> <font color="#009900">id</font><font color="#990000">=</font><font color="#FF0000">"NestedSlideshowNav%INCLUDINGTOPIC%"</font><b><font color="#0000FF">&gt;&lt;/div&gt;</font></b>
+<b><font color="#0000FF">&lt;div</font></b> <font color="#009900">id</font><font color="#990000">=</font><font color="#FF0000">"NestedSlideshow%INCLUDINGTOPIC%"</font><b><font color="#0000FF">&gt;</font></b>
+<b><font color="#0000FF">&lt;pre</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"tml"</font><b><font color="#0000FF">&gt;</font></b>
+%<b><font color="#000080">&lt;nop&gt;</font></b>INCLUDE{
+    "%<b><font color="#000080">&lt;nop&gt;</font></b>QUERY{
+        "'%<b><font color="#000080">&lt;nop&gt;</font></b>THETOPIC%'/%<b><font color="#000080">&lt;nop&gt;</font></b>THEFIELD%"
+    }%"
+    section="Summary"
+}%
+   <b><font color="#000080">* Set</font></b> <b><font color="#0000FF">THETOPIC</font></b> = %<b><font color="#000080">&lt;nop&gt;</font></b>SYSTEMWEB%.FAQWhatIsWikiWiki
+   <b><font color="#000080">* Set</font></b> <b><font color="#0000FF">THEFIELD</font></b> = TopicClassification
+<b><font color="#0000FF">&lt;/pre&gt;</font></b>
+<b><font color="#0000FF">&lt;pre</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"tml"</font><b><font color="#0000FF">&gt;</font></b>
+%<b><font color="#000080">&lt;nop&gt;</font></b>INCLUDE{
+    "%<b><font color="#000080">&lt;nop&gt;</font></b>QUERY{
+        "'%<b><font color="#000080">&lt;nop&gt;</font></b>SYSTEMWEB%.FAQWhatIsWikiWiki'/%<b><font color="#000080">&lt;nop&gt;</font></b>THEFIELD%"
+    }%"
+    section="Summary"
+}%
+   <b><font color="#000080">* Set</font></b> <b><font color="#0000FF">THETOPIC</font></b> = %<b><font color="#000080">&lt;nop&gt;</font></b>SYSTEMWEB%.FAQWhatIsWikiWiki
+   <b><font color="#000080">* Set</font></b> <b><font color="#0000FF">THEFIELD</font></b> = TopicClassification
+<b><font color="#0000FF">&lt;/pre&gt;</font></b>
+<b><font color="#0000FF">&lt;pre</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"tml"</font><b><font color="#0000FF">&gt;</font></b>
+%<b><font color="#000080">&lt;nop&gt;</font></b>INCLUDE{
+    "%<b><font color="#000080">&lt;nop&gt;</font></b>QUERY{
+        "'%<b><font color="#000080">&lt;nop&gt;</font></b>SYSTEMWEB%.FAQWhatIsWikiWiki'/TopicClassification"
+    }%"
+    section="Summary"
+}%
+   <b><font color="#000080">* Set</font></b> <b><font color="#0000FF">THETOPIC</font></b> = %<b><font color="#000080">&lt;nop&gt;</font></b>SYSTEMWEB%.FAQWhatIsWikiWiki
+   <b><font color="#000080">* Set</font></b> <b><font color="#0000FF">THEFIELD</font></b> = TopicClassification
+<b><font color="#0000FF">&lt;/pre&gt;</font></b>
+<b><font color="#0000FF">&lt;pre</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"tml"</font><b><font color="#0000FF">&gt;</font></b>
+%<b><font color="#000080">&lt;nop&gt;</font></b>INCLUDE{
+    "%<b><font color="#000080">&lt;nop&gt;</font></b>QUERY{
+        "'<b><font color="#0000FF">%SYSTEMWEB%</font></b>.FAQWhatIsWikiWiki'/TopicClassification"
+    }%"
+    section="Summary"
+}%
+   <b><font color="#000080">* Set</font></b> <b><font color="#0000FF">THETOPIC</font></b> = %<b><font color="#000080">&lt;nop&gt;</font></b>SYSTEMWEB%.FAQWhatIsWikiWiki
+   <b><font color="#000080">* Set</font></b> <b><font color="#0000FF">THEFIELD</font></b> = TopicClassification
+<b><font color="#0000FF">&lt;/pre&gt;</font></b>
+<b><font color="#0000FF">&lt;pre</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"tml"</font><b><font color="#0000FF">&gt;</font></b>
+%<b><font color="#000080">&lt;nop&gt;</font></b>INCLUDE{
+    "<b><font color="#0000FF">%QUERY{</font></b>
+<b><font color="#0000FF">        </font></b><font color="#FF0000">"'</font><b><font color="#0000FF">%SYSTEMWEB%</font></b><font color="#FF0000">.FAQWhatIsWikiWiki'/TopicClassification"</font>
+<b><font color="#0000FF">    }%</font></b>"
+    section="Summary"
+}%
+   <b><font color="#000080">* Set</font></b> <b><font color="#0000FF">THETOPIC</font></b> = %<b><font color="#000080">&lt;nop&gt;</font></b>SYSTEMWEB%.FAQWhatIsWikiWiki
+   <b><font color="#000080">* Set</font></b> <b><font color="#0000FF">THEFIELD</font></b> = TopicClassification
+<b><font color="#0000FF">&lt;/pre&gt;</font></b>
+<b><font color="#0000FF">&lt;pre</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"tml"</font><b><font color="#0000FF">&gt;</font></b>
+<b><font color="#0000FF">%INCLUDE{</font></b>
+<b><font color="#0000FF">    </font></b><font color="#FF0000">"</font><b><font color="#0000FF">%QUERY{</font></b>
+<b><font color="#0000FF">        </font></b><font color="#FF0000">"'</font><b><font color="#0000FF">%SYSTEMWEB%</font></b><font color="#FF0000">.FAQWhatIsWikiWiki'/TopicClassification"</font>
+<b><font color="#0000FF">    }%</font></b><font color="#FF0000">"</font>
+<b><font color="#0000FF">    </font></b><font color="#009900">section=</font><font color="#FF0000">"Summary"</font>
+<b><font color="#0000FF">}%</font></b>
+   <b><font color="#000080">* Set</font></b> <b><font color="#0000FF">THETOPIC</font></b> = %<b><font color="#000080">&lt;nop&gt;</font></b>SYSTEMWEB%.FAQWhatIsWikiWiki
+   <b><font color="#000080">* Set</font></b> <b><font color="#0000FF">THEFIELD</font></b> = TopicClassification
+<b><font color="#0000FF">&lt;/pre&gt;</font></b>
+<b><font color="#0000FF">&lt;pre</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"tml"</font><b><font color="#0000FF">&gt;</font></b>
+<b><font color="#0000FF">%INCLUDE{</font></b>
+<b><font color="#0000FF">    </font></b><font color="#FF0000">"</font><b><font color="#0000FF">%QUERY{</font></b>
+<b><font color="#0000FF">        </font></b><font color="#FF0000">"'</font><b><font color="#0000FF">%SYSTEMWEB%</font></b><font color="#FF0000">.FAQWhatIsWikiWiki'/TopicClassification"</font>
+<b><font color="#0000FF">    }%</font></b><font color="#FF0000">"</font>
+<b><font color="#0000FF">    </font></b><font color="#009900">section=</font><font color="#FF0000">"Summary"</font>
+<b><font color="#0000FF">}%</font></b>
+   <b><font color="#000080">* Set</font></b> <b><font color="#0000FF">THETOPIC</font></b> = <b><font color="#0000FF">%SYSTEMWEB%</font></b>.FAQWhatIsWikiWiki
+   <b><font color="#000080">* Set</font></b> <b><font color="#0000FF">THEFIELD</font></b> = TopicClassification
+<b><font color="#0000FF">&lt;/pre&gt;</font></b>
+<b><font color="#0000FF">&lt;/div&gt;</font></b>
+
+#DelayedForm
+<b><font color="#000080">---++++</font></b> Delayed form
+<u><font color="#0000FF">[[#StandardForm][Standard form]]</font></u> macros can nearly always be used to build the parameter string of another macro; however, sometimes it is desirable to bypass the <u><font color="#0000FF">[[#InsideOutLeftToRight][inside-out]]</font></u> expansion order and delay the inner macro until after the outer macro has finished expansion. This is accomplished by using the <u><font color="#0000FF">[[FormatTokens][$percent]]</font></u> format token instead of =%=, and escaping any ="= character it uses (becomes =\"=)
+
+<b><font color="#0000FF">%STARTSECTION{</font></b><font color="#FF0000">"tokensupport"</font><b><font color="#0000FF">}%&lt;blockquote</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"foswikiHelp"</font><b><font color="#0000FF">&gt;</font></b>
+  <b><font color="#0000FF">%T%</font></b> When working with a given <u><font color="#0000FF">[[Macros][macro]]</font></u>, consult its documentation to determine which parameters support the =$percent/$percnt= <u><font color="#0000FF">[[FormatTokens][format tokens]]</font></u>. Generally only _output parameters_ like =header=, =format= and =footer= support <u><font color="#0000FF">[[FormatTokens][format tokens]]</font></u>.
+  <b><font color="#0000FF">&lt;/blockquote&gt;%ENDSECTION{</font></b><font color="#FF0000">"tokensupport"</font><b><font color="#0000FF">}%</font></b>
+*Example:*
+<b><font color="#0000FF">&lt;verbatim</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"tml"</font><b><font color="#0000FF">&gt;</font></b>
+<b><font color="#0000FF">%MACRO1{</font></b>
+<b><font color="#0000FF">   </font></b><font color="#009900">format=</font><font color="#FF0000">"</font><b><font color="#0000FF">$percentMACRO2{</font></b>
+<b><font color="#0000FF">      </font></b><font color="#009900">format=</font><font color="#FF0000">\"</font><b><font color="#0000FF">%MACRO3%</font></b><font color="#FF0000">, </font><b><font color="#0000FF">%MACRO4%</font></b><font color="#FF0000">\"</font>
+<b><font color="#0000FF">   }$percent</font></b><font color="#FF0000">"</font>
+<b><font color="#0000FF">}%</font></b>
+<b><font color="#0000FF">&lt;/verbatim&gt;</font></b>
+The macros are expanded in this order: MACRO3, MACRO4, MACRO1, *MACRO2*.
+#AnimatedDelayedExample
+<b><font color="#000080">---+++++</font></b> Animated Example
+From the <u><font color="#0000FF">[[FormattedSearch#ConditionalOutputExample][conditional output example]]</font></u>:
+
+<b><font color="#0000FF">%JQREQUIRE{</font></b><font color="#FF0000">"CYCLE,EASING,CHILI"</font><b><font color="#0000FF">}%</font></b><i><font color="#9A1900">&lt;!-- ids are appended with %INCLUDINGTOPIC%</font></i>
+<i><font color="#9A1900">to avoid duplicates in System.CompleteDocumentation --&gt;</font></i><b><font color="#0000FF">%ADDTOZONE{</font></b><font color="#FF0000">"script"</font>
+<b><font color="#0000FF">  </font></b><font color="#009900">id=</font><font color="#FF0000">"DelayedSlideshow</font><b><font color="#0000FF">%INCLUDINGTOPIC%</font></b><font color="#FF0000">"</font>
+<b><font color="#0000FF">  </font></b><font color="#009900">text=</font><font color="#FF0000">"&lt;script type='text/javascript'&gt;</font>
+<font color="#FF0000">jQuery(document).ready(function($) {</font>
+<font color="#FF0000">    $('#DelayedSlideshow</font><b><font color="#0000FF">%INCLUDINGTOPIC%</font></b><font color="#FF0000">').cycle({</font>
+<font color="#FF0000">        fx:     'fade',</font>
+<font color="#FF0000">        speed:  'slow',</font>
+<font color="#FF0000">        timeout: 5000,</font>
+<font color="#FF0000">        pager:  '#DelayedSlideshowNav</font><b><font color="#0000FF">%INCLUDINGTOPIC%</font></b><font color="#FF0000">',</font>
+<font color="#FF0000">        slideExpr: 'pre',</font>
+<font color="#FF0000">        pause:  true,</font>
+<font color="#FF0000">        pauseOnPagerHover: true</font>
+<font color="#FF0000">    });</font>
+<font color="#FF0000">});</font>
+<font color="#FF0000">&lt;/script&gt;"</font>
+<b><font color="#0000FF">  </font></b><font color="#009900">requires=</font><font color="#FF0000">"JQUERYPLUGIN::CYCLE"</font>
+<b><font color="#0000FF">}%%ADDTOZONE{</font></b><font color="#FF0000">"head"</font>
+<b><font color="#0000FF">  </font></b><font color="#009900">id=</font><font color="#FF0000">"DelayedSlideshow</font><b><font color="#0000FF">%INCLUDINGTOPIC%</font></b><font color="#FF0000">/css"</font>
+<b><font color="#0000FF">  </font></b><font color="#009900">text=</font><font color="#FF0000">"&lt;style type='text/css'&gt;</font>
+<font color="#FF0000">    #DelayedSlideshowNav</font><b><font color="#0000FF">%INCLUDINGTOPIC%</font></b><font color="#FF0000">  a { margin: 0 10px 0 0; padding: 3px 5px; border: 1px solid #ddd; background: #fff; text-decoration: none }</font>
+<font color="#FF0000">    #DelayedSlideshowNav</font><b><font color="#0000FF">%INCLUDINGTOPIC%</font></b><font color="#FF0000">  a.activeSlide,</font>
+<font color="#FF0000">    #DelayedSlideshowNav</font><b><font color="#0000FF">%INCLUDINGTOPIC%</font></b><font color="#FF0000">  a:hover { background: #cff }</font>
+<font color="#FF0000">    #DelayedSlideshowNav</font><b><font color="#0000FF">%INCLUDINGTOPIC%</font></b><font color="#FF0000">  a:focus { outline: none; }</font>
+<font color="#FF0000">  &lt;/style&gt;"</font>
+<b><font color="#0000FF">}%&lt;div</font></b> <font color="#009900">id</font><font color="#990000">=</font><font color="#FF0000">"DelayedSlideshowNav%INCLUDINGTOPIC%"</font><b><font color="#0000FF">&gt;&lt;/div&gt;</font></b>
+<b><font color="#0000FF">&lt;div</font></b> <font color="#009900">id</font><font color="#990000">=</font><font color="#FF0000">"DelayedSlideshow%INCLUDINGTOPIC%"</font><b><font color="#0000FF">&gt;</font></b>
+<b><font color="#0000FF">&lt;verbatim</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"tml"</font><b><font color="#0000FF">&gt;</font></b>
+<b><font color="#0000FF">%SEARCH{</font></b>
+<b><font color="#0000FF">  </font></b><font color="#FF0000">"info.date &gt;= d2n('2009-01-01') AND info.date &lt;= d2n('2009-12-31')"</font>
+<b><font color="#0000FF">  </font></b><font color="#009900">type=</font><font color="#FF0000">"query"</font>
+<b><font color="#0000FF">  </font></b><font color="#009900">limit=</font><font color="#FF0000">"2"</font>
+<b><font color="#0000FF">  </font></b><font color="#009900">nonoise=</font><font color="#FF0000">"on"</font>
+<b><font color="#0000FF">  </font></b><font color="#009900">format=</font><font color="#FF0000">"   * </font><b><font color="#0000FF">$percentICON{</font></b>
+<b><font color="#0000FF">    </font></b><font color="#FF0000">\"</font><b><font color="#0000FF">$percentIF{</font></b>
+<b><font color="#0000FF">      </font></b><font color="#FF0000">\"'</font><b><font color="#000000">$topic</font></b><font color="#FF0000">'/parent.name='</font><b><font color="#0000FF">%PARENT%</font></b><font color="#FF0000">'\"</font>
+<b><font color="#0000FF">      </font></b><font color="#009900">then=</font><font color="#FF0000">\"info\"</font><b><font color="#0000FF"> </font></b><font color="#009900">else=</font><font color="#FF0000">\"gear\"</font>
+<b><font color="#0000FF">    }$percent</font></b><font color="#FF0000">\"</font>
+<b><font color="#0000FF">  }$percent</font></b><font color="#FF0000"> </font><u><font color="#0000FF">[[</font></u><b><font color="#000000">$topic</font></b><u><font color="#0000FF">]]</font></u><font color="#FF0000">"</font>
+<b><font color="#0000FF">}%</font></b>
+----
+   <b><font color="#000080">* Set</font></b> <b><font color="#0000FF">PARENT</font></b> = UserDocumentationCategory
+<b><font color="#0000FF">&lt;/verbatim&gt;</font></b>
+<b><font color="#0000FF">&lt;pre</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"tml"</font><b><font color="#0000FF">&gt;</font></b>
+%<b><font color="#000080">&lt;nop&gt;</font></b>SEARCH{
+  "info.date &gt;= d2n('2009-01-01') AND info.date &lt;= d2n('2009-12-31')"
+  type="query"
+  limit="2"
+  nonoise="on"
+  format="   * $percentICON{
+    \"$percentIF{
+      \"'$topic'/parent.name='UserDocumentationCategory'\"
+      then=\"info\" else=\"gear\"
+    }$percent\"
+  }$percent <u><font color="#0000FF">[[$topic]]</font></u>"
+}%
+----
+   <b><font color="#000080">* Set</font></b> <b><font color="#0000FF">PARENT</font></b> = UserDocumentationCategory
+<b><font color="#0000FF">&lt;/pre&gt;</font></b>
+<b><font color="#0000FF">&lt;pre</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"tml"</font><b><font color="#0000FF">&gt;</font></b>
+<b><font color="#0000FF">%SEARCH{</font></b>
+<b><font color="#0000FF">  </font></b><font color="#FF0000">"info.date &gt;= d2n('2009-01-01') AND info.date &lt;= d2n('2009-12-31')"</font>
+<b><font color="#0000FF">  </font></b><font color="#009900">type=</font><font color="#FF0000">"query"</font>
+<b><font color="#0000FF">  </font></b><font color="#009900">limit=</font><font color="#FF0000">"2"</font>
+<b><font color="#0000FF">  </font></b><font color="#009900">nonoise=</font><font color="#FF0000">"on"</font>
+<b><font color="#0000FF">  </font></b><font color="#009900">format=</font><font color="#FF0000">"   * </font><b><font color="#000000">$percent</font></b><b><font color="#000080">&lt;nop&gt;</font></b><font color="#FF0000">ICON{</font>
+<font color="#FF0000">    \"</font><b><font color="#000000">$percent</font></b><b><font color="#000080">&lt;nop&gt;</font></b><font color="#FF0000">IF{</font>
+<font color="#FF0000">      \"'</font><b><font color="#000000">$topic</font></b><font color="#FF0000">'/parent.name='UserDocumentationCategory'\"</font>
+<font color="#FF0000">      then=\"info\" else=\"gear\"</font>
+<font color="#FF0000">    }</font><b><font color="#000000">$percent</font></b><font color="#FF0000">\"</font>
+<font color="#FF0000">  }</font><b><font color="#000000">$percent</font></b><font color="#FF0000"> </font><u><font color="#0000FF">[[</font></u><b><font color="#000000">$topic</font></b><u><font color="#0000FF">]]</font></u><font color="#FF0000">"</font>
+<b><font color="#0000FF">}%</font></b>
+----
+   <b><font color="#000080">* Set</font></b> <b><font color="#0000FF">PARENT</font></b> = UserDocumentationCategory
+<b><font color="#0000FF">&lt;/pre&gt;</font></b>
+<b><font color="#0000FF">&lt;pre</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"tml"</font><b><font color="#0000FF">&gt;</font></b>
+<b><font color="#0000FF">%SEARCH{</font></b>
+<b><font color="#0000FF">  </font></b><font color="#FF0000">"info.date &gt;= d2n('2009-01-01') AND info.date &lt;= d2n('2009-12-31')"</font>
+<b><font color="#0000FF">  </font></b><font color="#009900">type=</font><font color="#FF0000">"query"</font>
+<b><font color="#0000FF">  </font></b><font color="#009900">limit=</font><font color="#FF0000">"2"</font>
+<b><font color="#0000FF">  </font></b><font color="#009900">nonoise=</font><font color="#FF0000">"on"</font>
+<b><font color="#0000FF">  </font></b><font color="#009900">format=</font><font color="#FF0000">"   * </font><b><font color="#000000">$percent</font></b><b><font color="#000080">&lt;nop&gt;</font></b><font color="#FF0000">ICON{</font>
+<font color="#FF0000">    \"</font><b><font color="#0000FF">$percentIF{</font></b>
+<b><font color="#0000FF">      </font></b><font color="#FF0000">\"'</font><b><font color="#000000">$topic</font></b><font color="#FF0000">'/parent.name='UserDocumentationCategory'\"</font>
+<b><font color="#0000FF">      </font></b><font color="#009900">then=</font><font color="#FF0000">\"info\"</font><b><font color="#0000FF"> </font></b><font color="#009900">else=</font><font color="#FF0000">\"gear\"</font>
+<b><font color="#0000FF">    }$percent</font></b><font color="#FF0000">\"</font>
+<font color="#FF0000">  }</font><b><font color="#000000">$percent</font></b><font color="#FF0000"> </font><u><font color="#0000FF">[[</font></u><b><font color="#000000">$topic</font></b><u><font color="#0000FF">]]</font></u><font color="#FF0000">"</font>
+<b><font color="#0000FF">}%</font></b>
+----
+   <b><font color="#000080">* Set</font></b> <b><font color="#0000FF">PARENT</font></b> = UserDocumentationCategory
+<b><font color="#0000FF">&lt;/pre&gt;</font></b>
+<b><font color="#0000FF">&lt;pre</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"tml"</font><b><font color="#0000FF">&gt;</font></b>
+<b><font color="#0000FF">%SEARCH{</font></b>
+<b><font color="#0000FF">  </font></b><font color="#FF0000">"info.date &gt;= d2n('2009-01-01') AND info.date &lt;= d2n('2009-12-31')"</font>
+<b><font color="#0000FF">  </font></b><font color="#009900">type=</font><font color="#FF0000">"query"</font>
+<b><font color="#0000FF">  </font></b><font color="#009900">limit=</font><font color="#FF0000">"2"</font>
+<b><font color="#0000FF">  </font></b><font color="#009900">nonoise=</font><font color="#FF0000">"on"</font>
+<b><font color="#0000FF">  </font></b><font color="#009900">format=</font><font color="#FF0000">"   * &amp;lt;img src=\"</font><b><font color="#0000FF">$percentICONURL{</font></b>
+<b><font color="#0000FF">    </font></b><font color="#FF0000">\"</font><b><font color="#0000FF">$percentIF{</font></b>
+<b><font color="#0000FF">      </font></b><font color="#FF0000">\"'</font><b><font color="#000000">$topic</font></b><font color="#FF0000">'/parent.name='UserDocumentationCategory'\"</font>
+<b><font color="#0000FF">      </font></b><font color="#009900">then=</font><font color="#FF0000">\"info\"</font><b><font color="#0000FF"> </font></b><font color="#009900">else=</font><font color="#FF0000">\"gear\"</font>
+<b><font color="#0000FF">    }$percent</font></b><font color="#FF0000">\"</font>
+<b><font color="#0000FF">  }$percent</font></b><font color="#FF0000">\"/&amp;gt; </font><u><font color="#0000FF">[[</font></u><b><font color="#000000">$topic</font></b><u><font color="#0000FF">]]</font></u><font color="#FF0000">"</font>
+<b><font color="#0000FF">}%</font></b>
+----
+   <b><font color="#000080">* Set</font></b> <b><font color="#0000FF">PARENT</font></b> = UserDocumentationCategory
+<b><font color="#0000FF">&lt;/pre&gt;</font></b>
+<b><font color="#0000FF">&lt;/div&gt;</font></b>
+<b><font color="#0000FF">%ENDSECTION{</font></b><font color="#FF0000">"insideoutlefttoright"</font><b><font color="#0000FF">}%</font></b>
+
+See also: <u><font color="#0000FF">[[FormattedSearch#NestedSearchExample][FormattedSearch]]</font></u>
+
+<b><font color="#000080">---++</font></b> Macro Names
+Macro names must start with a letter. The following characters can be letters, numbers and the underscore '_'. Letters may be upper or lower-case, E.g. =%<b><font color="#000080">&lt;nop&gt;</font></b>MYVAR%=, =%<b><font color="#000080">&lt;nop&gt;</font></b>MyVar%=, =%<b><font color="#000080">&lt;nop&gt;</font></b>My2ndVar%=, and =%<b><font color="#000080">&lt;nop&gt;</font></b>My_Var%= are all separate, valid macro names (macros are case sensitive  - =%<b><font color="#000080">&lt;nop&gt;</font></b>MyVAR%= and =%<b><font color="#000080">&lt;nop&gt;</font></b>MYVAR%= are not the same).
+
+By convention all settings, predefined macros and macros registered by plugins are always UPPER-CASE.
+<i><font color="#9A1900">&lt;!--</font></i>
+<i><font color="#9A1900">   * Set CONDITIONS = According to [[%BASETOPIC%]], The %WHAT% is %STATE% today. (Set in [[Macros]]).</font></i>
+<i><font color="#9A1900">   * Set WEATHER = It's %DEFAULT{default="raining"}%.</font></i>
+<i><font color="#9A1900">--&gt;</font></i>
+<b><font color="#0000FF">%INCLUDE{</font></b><font color="#FF0000">"PreferenceSettings"</font><b><font color="#0000FF">}%</font></b>
+
+#PreDef
+<b><font color="#000080">---++</font></b> Predefined Macros
+
+Most predefined macros return values that were either set in the configuration when Foswiki was installed, or taken from server info (such as current username, or date and time). Some, like =%<b><font color="#000080">&lt;nop&gt;</font></b>SEARCH%=, are powerful and general tools.
+
+<b><font color="#0000FF">&lt;blockquote</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"foswikiHelp"</font><b><font color="#0000FF">&gt;</font></b>
+<b><font color="#0000FF">%X%</font></b> Predefined macros can be overridden by <u><font color="#0000FF">[[</font></u><b><font color="#0000FF">%SYSTEMWEB%</font></b><u><font color="#0000FF">.PreferenceSettings][preference settings]]</font></u> (except TOPIC and WEB)
+
+<b><font color="#0000FF">%X%</font></b> Plugins may extend the set of predefined macros (see individual Plugins topics for details)
+
+<b><font color="#0000FF">%T%</font></b> *Take the time to thoroughly read through ALL preference macros.* If you actively configure your site, review macros periodically. They cover a wide range of functions, and it can be easy to miss the one perfect macro for something you have in mind. For example, see =%<b><font color="#000080">&lt;nop&gt;</font></b>BASETOPIC%=, =%<b><font color="#000080">&lt;nop&gt;</font></b>INCLUDE%=, and the mighty =%<b><font color="#000080">&lt;nop&gt;</font></b>SEARCH%=.
+<b><font color="#0000FF">&lt;/blockquote&gt;</font></b>
+
+Your installation of Foswiki <b><font color="#0000FF">%WIKIVERSION%</font></b> has the following registered macros:
+
+<b><font color="#0000FF">%SEARCH{</font></b>
+<b><font color="#0000FF">    </font></b><font color="#FF0000">"^Var[A-Z_0-9]+$"</font>
+<b><font color="#0000FF">    </font></b><font color="#009900">casesensitive=</font><font color="#FF0000">"on"</font>
+<b><font color="#0000FF">    </font></b><font color="#009900">web=</font><font color="#FF0000">"</font><b><font color="#0000FF">%SYSTEMWEB%</font></b><font color="#FF0000">"</font>
+<b><font color="#0000FF">    </font></b><font color="#009900">type=</font><font color="#FF0000">"regex"</font>
+<b><font color="#0000FF">    </font></b><font color="#009900">scope=</font><font color="#FF0000">"topic"</font>
+<b><font color="#0000FF">    </font></b><font color="#009900">format=</font><font color="#FF0000">"</font><b><font color="#0000FF">$percentINCLUDE{</font></b><b><font color="#000000">$web</font></b><b><font color="#0000FF">.</font></b><b><font color="#000000">$topic</font></b><b><font color="#0000FF">}$percent</font></b><font color="#FF0000">"</font>
+<b><font color="#0000FF">    </font></b><font color="#009900">nonoise=</font><font color="#FF0000">"on"</font>
+<b><font color="#0000FF">}%</font></b>
+
+<b><font color="#000080">---+++</font></b> Shortcuts
+
+The following macros are <u><font color="#0000FF">[[</font></u><b><font color="#0000FF">%SYSTEMWEB%</font></b><u><font color="#0000FF">.PreferenceSettings][preference settings]]</font></u> and are frequently used in topic content.
+   * =%<b><font color="#000080">&lt;nop&gt;</font></b>BR%= - line break
+   * =%<b><font color="#000080">&lt;nop&gt;</font></b>BULLET%= - bullet sign
+   * =%<b><font color="#000080">&lt;nop&gt;</font></b>BB%= - line break and bullet combined
+   * =%<b><font color="#000080">&lt;nop&gt;</font></b>BB2%= - indented line break and bullet
+   * =%<b><font color="#000080">&lt;nop&gt;</font></b>RED% text %<b><font color="#000080">&lt;nop&gt;</font></b>ENDCOLOR%= - colored text (also =%<b><font color="#000080">&lt;nop&gt;</font></b>YELLOW%=, =%<b><font color="#000080">&lt;nop&gt;</font></b>ORANGE%=, =%<b><font color="#000080">&lt;nop&gt;</font></b>PINK%=, =%<b><font color="#000080">&lt;nop&gt;</font></b>PURPLE%=, =%<b><font color="#000080">&lt;nop&gt;</font></b>TEAL%=, =%<b><font color="#000080">&lt;nop&gt;</font></b>NAVY%=, =%<b><font color="#000080">&lt;nop&gt;</font></b>BLUE%=, =%<b><font color="#000080">&lt;nop&gt;</font></b>AQUA%=, =%<b><font color="#000080">&lt;nop&gt;</font></b>LIME%=, =%<b><font color="#000080">&lt;nop&gt;</font></b>GREEN%=, =%<b><font color="#000080">&lt;nop&gt;</font></b>OLIVE%=, =%<b><font color="#000080">&lt;nop&gt;</font></b>MAROON%=, =%<b><font color="#000080">&lt;nop&gt;</font></b>BROWN%=, =%<b><font color="#000080">&lt;nop&gt;</font></b>BLACK%=, =%<b><font color="#000080">&lt;nop&gt;</font></b>GRAY%=, =%<b><font color="#000080">&lt;nop&gt;</font></b>SILVER%=, =%<b><font color="#000080">&lt;nop&gt;</font></b>WHITE%=)
+   * =%<b><font color="#000080">&lt;nop&gt;</font></b>H%= - <b><font color="#0000FF">%H%</font></b> Help icon
+   * =%<b><font color="#000080">&lt;nop&gt;</font></b>I%= - <b><font color="#0000FF">%I%</font></b> Idea icon
+   * =%<b><font color="#000080">&lt;nop&gt;</font></b>M%= - <b><font color="#0000FF">%M%</font></b> Moved to icon
+   * =%<b><font color="#000080">&lt;nop&gt;</font></b>N%= - <b><font color="#0000FF">%N%</font></b> New icon
+   * =%<b><font color="#000080">&lt;nop&gt;</font></b>P%= - <b><font color="#0000FF">%P%</font></b> Refactor icon
+   * =%<b><font color="#000080">&lt;nop&gt;</font></b>Q%= - <b><font color="#0000FF">%Q%</font></b> Question icon
+   * =%<b><font color="#000080">&lt;nop&gt;</font></b>S%= - <b><font color="#0000FF">%S%</font></b> Red star icon
+   * =%<b><font color="#000080">&lt;nop&gt;</font></b>T%= - <b><font color="#0000FF">%T%</font></b> Tip icon
+   * =%<b><font color="#000080">&lt;nop&gt;</font></b>U%= - <b><font color="#0000FF">%U%</font></b> Updated icon
+   * =%<b><font color="#000080">&lt;nop&gt;</font></b>X%= - <b><font color="#0000FF">%X%</font></b> Alert icon
+   * =%<b><font color="#000080">&lt;nop&gt;</font></b>Y%= - <b><font color="#0000FF">%Y%</font></b> Done icon
+
+See ShortcutMacros for a full list of predefined shortcuts.
+
+<b><font color="#0000FF">%STOPINCLUDE%</font></b>
+
+---
+*Related Topics:* UserDocumentationCategory
+<i><font color="#9A1900">&lt;!-- %JQREQUIRE{"chili"}% --&gt;</font></i>
+</tt></pre>

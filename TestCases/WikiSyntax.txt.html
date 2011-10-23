@@ -1,0 +1,113 @@
+<!-- Generator: GNU source-highlight 3.1.4
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><b><font color="#0000FF">%META:TOPICINFO{</font></b><font color="#009900">author=</font><font color="#FF0000">"ProjectContributor"</font><b><font color="#0000FF"> </font></b><font color="#009900">date=</font><font color="#FF0000">"1284905045"</font><b><font color="#0000FF"> </font></b><font color="#009900">format=</font><font color="#FF0000">"1.1"</font><b><font color="#0000FF"> </font></b><font color="#009900">version=</font><font color="#FF0000">"1"</font><b><font color="#0000FF">}%</font></b>
+<b><font color="#0000FF">%META:TOPICPARENT{</font></b><font color="#009900">name=</font><font color="#FF0000">"UsersGuide"</font><b><font color="#0000FF">}%</font></b>
+<b><font color="#000080">---+</font></b> Shorthand Basics
+<b><font color="#0000FF">%TOC%</font></b>
+
+<b><font color="#0000FF">%STARTINCLUDE%</font></b>
+If you can enter text, you're ready for Foswiki. With a few simple rules, you'll be able to use plain text to create well-styled postings, instantly. What you are going to learn here is called <b><font color="#0000FF">&lt;b&gt;</font></b>T<b><font color="#0000FF">&lt;/b&gt;</font></b>opic <b><font color="#0000FF">&lt;b&gt;</font></b>M<b><font color="#0000FF">&lt;/b&gt;</font></b>arkup <b><font color="#0000FF">&lt;b&gt;</font></b>L<b><font color="#0000FF">&lt;/b&gt;</font></b>anguage, or simply TML. So here comes a fast-track guide to shorthand basics:
+
+<b><font color="#000080">---++</font></b> General text formatting
+
+   * Separate each *paragraph* with a blank line.
+
+   * To display a *bold type* word or phrase, use asterisks: =*bold type*=.
+
+   * To display an _italic_ word or phrase, use underscores: =_italic_=.
+
+   * To display __bold with italics__ word or phrase, use _double_ underscores: =__bold italic__=.
+
+   * To display a word or phrase in =MONOSPACED TYPE=, use equal signs: =<b><font color="#000080">&lt;nop&gt;</font></b>=like this==.
+
+   * Use =<b><font color="#000080">&lt;nop&gt;</font></b>=<b><font color="#000080">&lt;nop&gt;</font></b>=double equal signs=== for bold: ==bold mono==.
+
+   * To display colored text, enter:__ =%<b><font color="#000080">&lt;nop&gt;</font></b>RED% red text %<b><font color="#000080">&lt;nop&gt;</font></b>ENDCOLOR% and %<b><font color="#000080">&lt;nop&gt;</font></b>GREEN% green text %<b><font color="#000080">&lt;nop&gt;</font></b>ENDCOLOR%= to get <b><font color="#0000FF">%RED%</font></b> red text <b><font color="#0000FF">%ENDCOLOR%</font></b> and <b><font color="#0000FF">%GREEN%</font></b> green text <b><font color="#0000FF">%ENDCOLOR%</font></b>.
+      * =%<b><font color="#000080">&amp;lt;</font></b>color<b><font color="#000080">&amp;gt;</font></b>%= text must end with =%<b><font color="#000080">&lt;nop&gt;</font></b>ENDCOLOR%=. If you want to switch from one color to another one you first need to end the active color with =%<b><font color="#000080">&lt;nop&gt;</font></b>ENDCOLOR%=, e.g. write =%<b><font color="#000080">&lt;nop&gt;</font></b>RED% some text %<b><font color="#000080">&lt;nop&gt;</font></b>ENDCOLOR% %<b><font color="#000080">&lt;nop&gt;</font></b>GREEN% more text %<b><font color="#000080">&lt;nop&gt;</font></b>ENDCOLOR%=.
+      * DefaultPreferences defines some commonly used colors: *<b><font color="#0000FF">%YELLOW%</font></b> %<b><font color="#000080">&lt;nop&gt;</font></b>YELLOW%<b><font color="#0000FF">%ENDCOLOR%</font></b>, <b><font color="#0000FF">%RED%</font></b> %<b><font color="#000080">&lt;nop&gt;</font></b>RED%<b><font color="#0000FF">%ENDCOLOR%</font></b>, <b><font color="#0000FF">%PINK%</font></b> %<b><font color="#000080">&lt;nop&gt;</font></b>PINK%<b><font color="#0000FF">%ENDCOLOR%</font></b>, <b><font color="#0000FF">%PURPLE%</font></b> %<b><font color="#000080">&lt;nop&gt;</font></b>PURPLE%<b><font color="#0000FF">%ENDCOLOR%</font></b>, <b><font color="#0000FF">%TEAL%</font></b> %<b><font color="#000080">&lt;nop&gt;</font></b>TEAL%<b><font color="#0000FF">%ENDCOLOR%</font></b>, <b><font color="#0000FF">%NAVY%</font></b> %<b><font color="#000080">&lt;nop&gt;</font></b>NAVY%<b><font color="#0000FF">%ENDCOLOR%</font></b>, <b><font color="#0000FF">%BLUE%</font></b> %<b><font color="#000080">&lt;nop&gt;</font></b>BLUE%<b><font color="#0000FF">%ENDCOLOR%</font></b>, <b><font color="#0000FF">%AQUA%</font></b> %<b><font color="#000080">&lt;nop&gt;</font></b>AQUA%<b><font color="#0000FF">%ENDCOLOR%</font></b>, <b><font color="#0000FF">%LIME%</font></b> %<b><font color="#000080">&lt;nop&gt;</font></b>LIME%<b><font color="#0000FF">%ENDCOLOR%</font></b>, <b><font color="#0000FF">%GREEN%</font></b> %<b><font color="#000080">&lt;nop&gt;</font></b>GREEN%<b><font color="#0000FF">%ENDCOLOR%</font></b>, <b><font color="#0000FF">%OLIVE%</font></b> %<b><font color="#000080">&lt;nop&gt;</font></b>OLIVE%<b><font color="#0000FF">%ENDCOLOR%</font></b>, <b><font color="#0000FF">%MAROON%</font></b> %<b><font color="#000080">&lt;nop&gt;</font></b>MAROON%<b><font color="#0000FF">%ENDCOLOR%</font></b>, <b><font color="#0000FF">%BLACK%</font></b> %<b><font color="#000080">&lt;nop&gt;</font></b>BLACK%<b><font color="#0000FF">%ENDCOLOR%</font></b>, <b><font color="#0000FF">%GRAY%</font></b> %<b><font color="#000080">&lt;nop&gt;</font></b>GRAY%<b><font color="#0000FF">%ENDCOLOR%</font></b>, <b><font color="#0000FF">%SILVER%</font></b> %<b><font color="#000080">&lt;nop&gt;</font></b>SILVER%<b><font color="#0000FF">%ENDCOLOR%</font></b>* and *%<b><font color="#000080">&lt;nop&gt;</font></b>ENDCOLOR%*.
+
+   * To display headings, type (from the beginning of a line) three dashes (-), from one to six plus signs (+), a space, and your heading text.
+      * The quantity of plus signs is related to the size of the heading - the more plus signs you use, the smaller the heading.
+      * You can insert a nested table of contents, generated from headings, by placing =%<b><font color="#000080">&lt;nop&gt;</font></b>TOC%= wherever you like on a page (see <u><font color="#0000FF">[[</font></u><b><font color="#0000FF">%SYSTEMWEB%</font></b><u><font color="#0000FF">.Macros]]</font></u> for more =%<b><font color="#000080">&lt;nop&gt;</font></b>TOC%= options).
+
+   * Use ==<b><font color="#000080">&amp;lt;</font></b>verbatim<b><font color="#000080">&amp;gt;</font></b>== to enclose code excerpts, filenames, and other unformatted text:<b><font color="#0000FF">&lt;verbatim</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"tml"</font><b><font color="#0000FF">&gt;</font></b>
+ <b><font color="#0000FF">&lt;verbatim&gt;</font></b>
+ unformatted text!
+ and more of it!
+ <b><font color="#0000FF">&lt;/verbatim&gt;&lt;/verbatim&gt;</font></b>
+
+<b><font color="#000080">---+++</font></b> Working with special characters (advanced)
+   * If you want to display angle brackets, enter them as HTML codes instead of typing them in directly:
+      * =<b><font color="#000080">&amp;amp;</font></b>lt;= = =<b><font color="#000080">&amp;lt;</font></b>= <b><font color="#0000FF">%BR%</font></b>
+        =<b><font color="#000080">&amp;amp;</font></b>gt;= = =<b><font color="#000080">&amp;gt;</font></b>=
+      * __You enter:__ =(a <b><font color="#000080">&amp;amp;</font></b>gt; 0)= <b><font color="#0000FF">%BR%</font></b>
+        __Result:__ =(a <b><font color="#000080">&amp;gt;</font></b> 0)=
+
+   * Sometimes you will not see the =&amp;= character and you need to escape it to see it as it is. The reason behind is that =&amp;= has a special meaning in HTML - it starts so called character entities, like ='<b><font color="#000080">&amp;amp;</font></b>copy;'= which is the =<b><font color="#000080">&amp;copy;</font></b>= copyright character.
+      * Type ='This <b><font color="#000080">&amp;amp;</font></b>amp; that'= to get ='This <b><font color="#000080">&amp;amp;</font></b> that'=.
+
+<b><font color="#000080">---+++</font></b> Preventing <u><font color="#0000FF">[[Macros][Macro]]</font></u>/variable expansion (advanced)
+Place =<b><font color="#000080">&amp;lt;</font></b>nop<b><font color="#000080">&amp;gt;</font></b>= within a =%<b><font color="#000080">&lt;nop&gt;</font></b>MACRO%= statement to prevent it from being expanded, as follows:
+   * =%<b><font color="#000080">&amp;lt;</font></b>nop<b><font color="#000080">&amp;gt;</font></b>MACRO%=, result: %<b><font color="#000080">&lt;nop&gt;</font></b>MACRO%
+
+<b><font color="#000080">---+++</font></b> Working with =<b><font color="#000080">&amp;lt;</font></b>verbatim<b><font color="#000080">&amp;gt;</font></b>= (advanced)
+Although text inside a =<b><font color="#000080">&amp;lt;</font></b>verbatim<b><font color="#000080">&amp;gt;</font></b>= block should be displayed exactly as it is typed (without being expanded), Foswiki does not necessarily ignore it. The following examples show TML that Foswiki will process inside a =<b><font color="#000080">&amp;lt;</font></b>verbatim<b><font color="#000080">&amp;gt;</font></b>= block:
+<b><font color="#0000FF">&lt;pre</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"tml"</font><b><font color="#0000FF">&gt;</font></b><b><font color="#000080">&amp;lt;</font></b>verbatim<b><font color="#000080">&amp;gt;</font></b>
+Example 1:
+   &amp;#42; Set VARIABLE = This variable may be used as normal, Eg. %<b><font color="#000080">&lt;nop&gt;</font></b>VARIABLE%
+
+Example 2:
+%<b><font color="#000080">&lt;nop&gt;</font></b>STARTSECTION{"section"}%
+This section may be used as normal, Eg. %<b><font color="#000080">&lt;nop&gt;</font></b>INCLUDE{"<b><font color="#0000FF">%TOPIC%</font></b>" section="section"}%
+%<b><font color="#000080">&lt;nop&gt;</font></b>ENDSECTION{"section"}%
+
+Example 3:
+%<b><font color="#000080">&lt;nop&gt;</font></b>TMPL:DEF{"template"}%
+This template definition may be used as normal, Eg. %<b><font color="#000080">&lt;nop&gt;</font></b>TMPL:P{"template"}%
+<b><font color="#0000FF">%TMPL:END%</font></b>
+<b><font color="#000080">&amp;lt;</font></b>/verbatim<b><font color="#000080">&amp;gt;</font></b><b><font color="#0000FF">&lt;/pre&gt;</font></b>
+
+<b><font color="#000080">---++</font></b> Internal and external links
+
+   * To link to another Wiki topic in the same web, type the WikiWord of that topic: =<b><font color="#000080">&lt;nop&gt;</font></b><b><font color="#0000FF">%HOMETOPIC%</font></b>=.  Acronyms will also be linked if the topic exists. See ACRONYM.
+
+   * To link to a Wiki topic in a different web, type the name of the web, and a dot, first: =<b><font color="#0000FF">%SANDBOXWEB%</font></b>.<b><font color="#000080">&lt;nop&gt;</font></b><b><font color="#0000FF">%HOMETOPIC%</font></b>=.
+
+   * A Wiki topic that doesn't exist will appear highlighted, with question mark at the end, prompting you (or someone else) to start that topic by clicking the *?*: ExampleOfANewTopic (click the *?*, but don't save, to preserve the example!).
+
+   * To create an external link, type the full URL: =http://foswiki.org/=.
+
+   * To prevent a <b><font color="#000080">&lt;nop&gt;</font></b>WikiWord from becoming a link, place =<b><font color="#000080">&amp;lt;</font></b>nop<b><font color="#000080">&amp;gt;</font></b>= or an exclamation mark (=!=) in front of the <b><font color="#000080">&lt;nop&gt;</font></b>WikiWord: ==<b><font color="#000080">&amp;lt;</font></b>nop<b><font color="#000080">&amp;gt;</font></b>NoLinkPlease== or ==!NoLinkPlease==.
+
+   * To escape the exclamation mark escape, try prefixing a =<b><font color="#000080">&amp;lt;</font></b>nop&gt;=, e.g. write =A <b><font color="#000080">&amp;lt;</font></b>nop&gt;!=<b><font color="#000080">&lt;nop&gt;</font></b> B= to get "A <b><font color="#000080">&lt;nop&gt;</font></b>!= B". Alternatively, use the HTML entity =<b><font color="#000080">&amp;amp;</font></b>#33;=, which renders as an exclamation mark, e.g. write =A <b><font color="#000080">&amp;amp;</font></b>#33;=<b><font color="#000080">&lt;nop&gt;</font></b> B= to get "A &amp;#33;= B".
+
+<b><font color="#000080">---++</font></b> Bullet and numbered lists
+
+   * To indent with a bullet, enter =[space][space][space][asterisk][space]=.
+      * Use multiples of 3 spaces to *nest bullets*.
+         * That's 3-6-9 spaces...
+
+   * To create a numbered list:
+      1 Start items in a *numbered list* with =[space][space][space][1][space]=.
+      1 The "1" (or *any number*) will be replaced by a correct numbering order.
+      1 To add a new paragraph without restarting list numbering, use the %<b><font color="#000080">&lt;nop&gt;</font></b>BR% variable, like this:<b><font color="#0000FF">%BR%</font></b> Text added (in a new paragraph)
+      1 and the numbered list continues.
+
+Always start *counting* spaces for bullets or numbers from the beginning of a new line.
+
+<b><font color="#000080">---++</font></b> Others
+
+   * To display an image in a topic, <u><font color="#0000FF">[[FileAttachment][attach it]]</font></u> and type in edit mode: <b><font color="#0000FF">&lt;br</font></b> <b><font color="#0000FF">/&gt;</font></b> =%<b><font color="#000080">&lt;nop&gt;</font></b>ATTACHURL%/yourimagefilename.jpg=
+
+   * Three (or more) consecutive *hyphens* will create a horizontal rule:<b><font color="#0000FF">%BR%</font></b> =---=
+
+Follow GoodStyle recommendations when editing topics. In general, it is always nice to add one's signature at the end of a topic or comments. To add your signature, type =<b><font color="#0000FF">%USERSWEB%</font></b>.YourName=, it will then expand to <b><font color="#0000FF">%WIKIUSERNAME%</font></b>.
+
+See EditingShorthand for the complete set of formatting rules.
+
+<b><font color="#0000FF">%STOPINCLUDE%</font></b>
+__Related Topics:__ WikiWords, <u><font color="#0000FF">[[Macros]]</font></u>, EditingShorthand, FileAttachment
+<i><font color="#9A1900">&lt;!--%JQREQUIRE{"chili"}%--&gt;</font></i>
+</tt></pre>

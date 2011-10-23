@@ -1,0 +1,367 @@
+<!-- Generator: GNU source-highlight 3.1.4
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><b><font color="#0000FF">%META:TOPICINFO{</font></b><font color="#009900">author=</font><font color="#FF0000">"ProjectContributor"</font><b><font color="#0000FF"> </font></b><font color="#009900">date=</font><font color="#FF0000">"1282570594"</font><b><font color="#0000FF"> </font></b><font color="#009900">format=</font><font color="#FF0000">"1.1"</font><b><font color="#0000FF"> </font></b><font color="#009900">version=</font><font color="#FF0000">"1"</font><b><font color="#0000FF">}%</font></b>
+<b><font color="#0000FF">%META:TOPICPARENT{</font></b><font color="#009900">name=</font><font color="#FF0000">"FormattedSearch"</font><b><font color="#0000FF">}%</font></b>
+<b><font color="#000080">---+!!</font></b> Search Pattern Cookbook
+
+The Search function is very powerful. Searches using a RegularExpression play an important part of tapping Foswiki's full potential. Unfortunately RegularExpressions can be incredibly obscure to the uninitiated. 
+
+Most people not familiar (enough) with Regular Expressions mostly cut and paste (and maybe tweak) from existing examples. This page intends to collect lots of examples together.
+
+<b><font color="#0000FF">%TOC{ </font></b><font color="#009900">depth=</font><font color="#FF0000">"2"</font><b><font color="#0000FF"> }%</font></b>
+
+<i><font color="#9A1900">&lt;!-- ============================== --&gt;</font></i>
+#SearchTables
+<b><font color="#000080">---++</font></b> Pattern 1: Extract values from a table
+
+<b><font color="#000080">---+++</font></b> Problem definition
+
+Suppose there is a topic with a table defining entries in a <u><font color="#0000FF">[[data form]]</font></u>. I.e. they define select menu items in a form definition. They are then formatted like:
+
+<b><font color="#0000FF">&lt;verbatim</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"tml"</font><b><font color="#0000FF">&gt;</font></b>
+| *Name*  | *Type* | *Tooltip message* |
+| option1 | option |                   |
+| option2 | option |                   |
+| option3 | option |                   |
+<b><font color="#0000FF">&lt;/verbatim&gt;</font></b>
+
+How to extract the 'name' values, i.e. 'option1', 'option2' and 'option3' and put them in a HTML form select input?
+
+<b><font color="#000080">---+++</font></b> Solution 1
+The following search pattern can be employed:
+
+<b><font color="#0000FF">&lt;verbatim</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"tml"</font><b><font color="#0000FF">&gt;</font></b>
+<b><font color="#0000FF">&lt;form&gt;</font></b>
+    <b><font color="#0000FF">&lt;select&gt;</font></b>
+        <b><font color="#0000FF">%SEARCH{</font></b>
+<b><font color="#0000FF">            </font></b><font color="#FF0000">"^\|[^\|]*\| *option *\|"</font>
+<b><font color="#0000FF">            </font></b><font color="#009900">topic=</font><font color="#FF0000">"</font><b><font color="#0000FF">%TOPIC%</font></b><font color="#FF0000">"</font>
+<b><font color="#0000FF">            </font></b><font color="#009900">type=</font><font color="#FF0000">"regex"</font>
+<b><font color="#0000FF">            </font></b><font color="#009900">multiple=</font><font color="#FF0000">"on"</font>
+<b><font color="#0000FF">            </font></b><font color="#009900">nonoise=</font><font color="#FF0000">"on"</font>
+<b><font color="#0000FF">            </font></b><font color="#009900">format=</font><font color="#FF0000">"&lt;option&gt;</font><b><font color="#000000">$pattern(</font></b><font color="#008080">^\| *(.*?</font><b><font color="#000000">)</font></b><font color="#FF0000"> *\|.*)&lt;/option&gt;"</font>
+<b><font color="#0000FF">        }%</font></b>
+    <b><font color="#0000FF">&lt;/select&gt;</font></b>
+<b><font color="#0000FF">&lt;/form&gt;</font></b>
+<b><font color="#0000FF">&lt;/verbatim&gt;</font></b>
+
+which is, in effect:
+<b><font color="#0000FF">&lt;form&gt;</font></b>
+    <b><font color="#0000FF">&lt;select&gt;</font></b>
+        <b><font color="#0000FF">%SEARCH{</font></b>
+<b><font color="#0000FF">            </font></b><font color="#FF0000">"^\|[^\|]*\| *option *\|"</font>
+<b><font color="#0000FF">            </font></b><font color="#009900">topic=</font><font color="#FF0000">"</font><b><font color="#0000FF">%TOPIC%</font></b><font color="#FF0000">"</font>
+<b><font color="#0000FF">            </font></b><font color="#009900">type=</font><font color="#FF0000">"regex"</font>
+<b><font color="#0000FF">            </font></b><font color="#009900">multiple=</font><font color="#FF0000">"on"</font>
+<b><font color="#0000FF">            </font></b><font color="#009900">nonoise=</font><font color="#FF0000">"on"</font>
+<b><font color="#0000FF">            </font></b><font color="#009900">format=</font><font color="#FF0000">"&lt;option&gt;</font><b><font color="#000000">$pattern(</font></b><font color="#008080">^\| *(.*?</font><b><font color="#000000">)</font></b><font color="#FF0000"> *\|.*)&lt;/option&gt;"</font>
+<b><font color="#0000FF">        }%</font></b>
+    <b><font color="#0000FF">&lt;/select&gt;</font></b>
+<b><font color="#0000FF">&lt;/form&gt;</font></b>
+
+<b><font color="#000080">---+++</font></b> Solution 2
+If your table has this format:
+<b><font color="#0000FF">&lt;verbatim</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"tml"</font><b><font color="#0000FF">&gt;</font></b>
+| *Country*      |
+|                |
+| Afghanistan    |
+| Aland Islands  |
+| Albania        |
+| Algeria        |
+| American Samoa |
+| Andorra        |
+<b><font color="#0000FF">&lt;/verbatim&gt;</font></b>
+
+You need to skip the header row. Use this search:
+<b><font color="#0000FF">&lt;verbatim</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"tml"</font><b><font color="#0000FF">&gt;</font></b>
+<b><font color="#0000FF">&lt;select&gt;</font></b>
+    <b><font color="#0000FF">%SEARCH{</font></b>
+<b><font color="#0000FF">        </font></b><font color="#FF0000">"^\|[^\*\|]*\|"</font>
+<b><font color="#0000FF">        </font></b><font color="#009900">topic=</font><font color="#FF0000">"CountryList"</font>
+<b><font color="#0000FF">        </font></b><font color="#009900">type=</font><font color="#FF0000">"regex"</font>
+<b><font color="#0000FF">        </font></b><font color="#009900">multiple=</font><font color="#FF0000">"on"</font>
+<b><font color="#0000FF">        </font></b><font color="#009900">nonoise=</font><font color="#FF0000">"on"</font>
+<b><font color="#0000FF">        </font></b><font color="#009900">format=</font><font color="#FF0000">"&lt;option&gt;</font><b><font color="#000000">$pattern(</font></b><font color="#008080">^\| *(.*?</font><b><font color="#000000">)</font></b><font color="#FF0000"> *\|.*)&lt;/option&gt;"</font>
+<b><font color="#0000FF">    }%</font></b>
+<b><font color="#0000FF">&lt;/select&gt;</font></b>
+<b><font color="#0000FF">&lt;/verbatim&gt;</font></b>
+
+Which renders as:
+<b><font color="#0000FF">&lt;select&gt;</font></b>
+    <b><font color="#0000FF">%SEARCH{</font></b>
+<b><font color="#0000FF">        </font></b><font color="#FF0000">"^\|[^\*\|]*\|"</font>
+<b><font color="#0000FF">        </font></b><font color="#009900">topic=</font><font color="#FF0000">"CountryList"</font>
+<b><font color="#0000FF">        </font></b><font color="#009900">type=</font><font color="#FF0000">"regex"</font>
+<b><font color="#0000FF">        </font></b><font color="#009900">multiple=</font><font color="#FF0000">"on"</font>
+<b><font color="#0000FF">        </font></b><font color="#009900">nonoise=</font><font color="#FF0000">"on"</font>
+<b><font color="#0000FF">        </font></b><font color="#009900">format=</font><font color="#FF0000">"&lt;option&gt;</font><b><font color="#000000">$pattern(</font></b><font color="#008080">^\| *(.*?</font><b><font color="#000000">)</font></b><font color="#FF0000"> *\|.*)&lt;/option&gt;"</font>
+<b><font color="#0000FF">    }%</font></b>
+<b><font color="#0000FF">&lt;/select&gt;</font></b>
+
+<i><font color="#9A1900">&lt;!-- ============================== --&gt;</font></i>
+#SearchFormClassification
+<b><font color="#000080">---++</font></b> Pattern 2: List generated from form classification
+
+<b><font color="#000080">---+++</font></b> Problem
+
+Imagine a form-based topic classification, i.e. every page has a form with several fields. How to:
+   1. create a search to display all topics where one form field is set to a certain value
+   1. create a search to filter the list above based on the values of a second form field
+
+<b><font color="#000080">---+++</font></b> Test case
+
+In practice: <b><font color="#0000FF">%BR%</font></b>
+Image a form with two fields:
+   * !TopicClassification = One, Two or Three
+   * !TopicStatus = Test or Final
+
+We will:
+   1. List all topics where the !TopicClassification field is set to 'Two'
+   2. Enable the user to filter this list based on the values of !TopicStatus
+
+<b><font color="#000080">---+++</font></b> Solution
+
+<b><font color="#0000FF">&lt;verbatim</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"tml"</font><b><font color="#0000FF">&gt;</font></b>
+<b><font color="#0000FF">%SEARCH{</font></b>
+<b><font color="#0000FF">    </font></b><font color="#FF0000">"TopicClassification='</font><b><font color="#0000FF">%URLPARAM{type}%</font></b><font color="#FF0000">'"</font>
+<b><font color="#0000FF">    </font></b><font color="#009900">type=</font><font color="#FF0000">"query"</font>
+<b><font color="#0000FF">    </font></b><font color="#009900">nonoise=</font><font color="#FF0000">"on"</font>
+<b><font color="#0000FF">    </font></b><font color="#009900">sort=</font><font color="#FF0000">"topic"</font>
+<b><font color="#0000FF">    </font></b><font color="#009900">format=</font><font color="#FF0000">"   * </font><b><font color="#000000">$topic</font></b><font color="#FF0000"> - &lt;font face='arial,helvetica' size='1'&gt;</font> 
+<font color="#FF0000">    _last modified by_ </font><b><font color="#000000">$wikiusername</font></b><font color="#FF0000"> _on_ </font><b><font color="#000000">$date</font></b><font color="#FF0000"> &lt;/font&gt; </font><b><font color="#0000FF">%BR%</font></b><font color="#FF0000"> &amp;nbsp;&amp;nbsp;&amp;nbsp;</font> 
+<font color="#FF0000">    &lt;font face='arial,helvetica' size='1'&gt; </font><b><font color="#000000">$formfield(</font></b><font color="#008080">TopicStatus</font><b><font color="#000000">)</font></b><font color="#FF0000"> &lt;/font&gt;"</font><b><font color="#0000FF"> </font></b>
+<b><font color="#0000FF">}%</font></b>
+<b><font color="#0000FF">&lt;/verbatim&gt;</font></b>
+
+The filtering select dialogue is created as in Pattern 1:
+
+<b><font color="#0000FF">&lt;verbatim</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"tml"</font><b><font color="#0000FF">&gt;</font></b>
+<b><font color="#0000FF">%STARTSIDEBAR%</font></b>
+*Filter:* <b><font color="#0000FF">%BR%</font></b>
+<b><font color="#0000FF">&lt;form</font></b> <font color="#009900">name</font><font color="#990000">=</font><font color="#FF0000">"selectType"</font> <font color="#009900">action</font><font color="#990000">=</font><font color="#FF0000">"%SCRIPTURLPATH{"</font><font color="#009900">view</font><font color="#FF0000">"}%/%WEB%/"</font> <b><font color="#0000FF">&gt;</font></b>
+    <b><font color="#0000FF">&lt;select</font></b> <font color="#009900">name</font><font color="#990000">=</font><font color="#FF0000">"type"</font> <font color="#009900">size</font><font color="#990000">=</font><font color="#FF0000">"1"</font> <font color="#009900">onchange</font><font color="#990000">=</font><font color="#FF0000">"document.location=this.value;"</font><b><font color="#0000FF">&gt;</font></b> 
+        <b><font color="#0000FF">%SEARCH{</font></b>
+<b><font color="#0000FF">            </font></b><font color="#FF0000">"^\|[^\|]*\| *option *\|"</font>
+<b><font color="#0000FF">            </font></b><font color="#009900">topic=</font><font color="#FF0000">"TopicClassification"</font>
+<b><font color="#0000FF">            </font></b><font color="#009900">type=</font><font color="#FF0000">"regex"</font><b><font color="#0000FF"> </font></b>
+<b><font color="#0000FF">            </font></b><font color="#009900">nonoise=</font><font color="#FF0000">"on"</font>
+<b><font color="#0000FF">            </font></b><font color="#009900">format=</font><font color="#FF0000">"&lt;option value='</font><b><font color="#0000FF">%BASETOPIC%</font></b><font color="#FF0000">?type=</font><b><font color="#000000">$pattern(</font></b><font color="#008080">^\| *(.*?</font><b><font color="#000000">)</font></b><font color="#FF0000"> *\|.*)'&gt;</font>
+<font color="#FF0000">                </font><b><font color="#000000">$pattern(</font></b><font color="#008080">^\| *(.*?</font><b><font color="#000000">)</font></b><font color="#FF0000"> *\|.*)&lt;/option&gt;"</font>
+<b><font color="#0000FF">        }%</font></b> 
+        <b><font color="#0000FF">&lt;option</font></b> <font color="#009900">value</font><font color="#990000">=</font><font color="#FF0000">'%BASETOPIC%'</font><b><font color="#0000FF">&gt;</font></b>All pages<b><font color="#0000FF">&lt;/option&gt;</font></b>
+    <b><font color="#0000FF">&lt;/select&gt;</font></b>
+<b><font color="#0000FF">&lt;/form&gt;</font></b>
+<b><font color="#0000FF">%STOPSIDEBAR%</font></b> 
+<b><font color="#0000FF">&lt;/verbatim&gt;</font></b>
+
+This will create similar functionality as Foswiki:Extensions.TopicClassificationAddOn
+
+
+<i><font color="#9A1900">&lt;!-- ============================== --&gt;</font></i>
+#SearchTopicParent
+<b><font color="#000080">---++</font></b> Pattern 3: Extract the parent of a given topic
+
+<b><font color="#000080">---+++</font></b> Problem
+
+How to get to the parent of the current topic to display on the page?
+
+<b><font color="#000080">---+++</font></b> Solution 1: Using QUERY
+
+Use the QUERY macro:
+
+=%<b><font color="#000080">&lt;nop&gt;</font></b>QUERY{ "parent.name" }%=
+
+<b><font color="#000080">---+++</font></b> Test case
+
+<b><font color="#0000FF">%QUERY{ </font></b><font color="#FF0000">"parent.name"</font><b><font color="#0000FF"> }%</font></b>
+
+
+<i><font color="#9A1900">&lt;!-- ============================== --&gt;</font></i>
+#SearchTopicChildren
+<b><font color="#000080">---++</font></b> Pattern 4: Show all Children of a given topic
+
+<b><font color="#000080">---+++</font></b> Problem
+
+How to get to the list of all children of the current topic to display on the page?
+
+<b><font color="#000080">---+++</font></b> Solution
+
+The parent information is stored in the topic meta data. Do a SEARCH to find all topic parent meta data pointing to the current topic:
+
+<b><font color="#0000FF">&lt;verbatim</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"tml"</font><b><font color="#0000FF">&gt;</font></b>
+Children:
+<b><font color="#0000FF">%SEARCH{</font></b>
+<b><font color="#0000FF">    </font></b><font color="#FF0000">"parent.name='</font><b><font color="#0000FF">%TOPIC%</font></b><font color="#FF0000">'"</font>
+<b><font color="#0000FF">    </font></b><font color="#009900">type=</font><font color="#FF0000">"query"</font>
+<b><font color="#0000FF">    </font></b><font color="#009900">nonoise=</font><font color="#FF0000">"on"</font>
+<b><font color="#0000FF">    </font></b><font color="#009900">format=</font><font color="#FF0000">"</font><u><font color="#0000FF">[[</font></u><b><font color="#000000">$topic</font></b><u><font color="#0000FF">]]</font></u><font color="#FF0000">"</font>
+<b><font color="#0000FF">    </font></b><font color="#009900">separator=</font><font color="#FF0000">", "</font>
+<b><font color="#0000FF">}%</font></b>
+<b><font color="#0000FF">&lt;/verbatim&gt;</font></b>
+
+*Note:* Replace =%<b><font color="#000080">&lt;nop&gt;</font></b>TOPIC%= with =%<b><font color="#000080">&lt;nop&gt;</font></b>BASETOPIC%= if you put this SEARCH into the skin or a sidebar.
+
+See also HierarchicalNavigation for an elaborate example.
+
+<i><font color="#9A1900">&lt;!-- ============================== --&gt;</font></i>
+#SearchPublicWebsList
+<b><font color="#000080">---++</font></b> Pattern 5: Search and display the home topics of public webs in a list
+
+<b><font color="#000080">---+++</font></b> Problem
+
+How to find and display public webs in a drop down list box.
+
+<b><font color="#000080">---+++</font></b> Solution
+
+<b><font color="#0000FF">&lt;verbatim</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"tml"</font><b><font color="#0000FF">&gt;</font></b>
+<b><font color="#0000FF">&lt;form&gt;</font></b>
+    <b><font color="#0000FF">&lt;select</font></b> <font color="#009900">name</font><font color="#990000">=</font><font color="#FF0000">"topic"</font><b><font color="#0000FF">&gt;</font></b>
+        <b><font color="#0000FF">&lt;option</font></b> <font color="#009900">value</font><font color="#990000">=</font><font color="#FF0000">"%TOPIC%"</font><b><font color="#0000FF">&gt;</font></b>Select...<b><font color="#0000FF">&lt;/option&gt;</font></b>
+            <b><font color="#0000FF">%SEARCH{</font></b>
+<b><font color="#0000FF">                </font></b><font color="#FF0000">"</font><b><font color="#0000FF">%HOMETOPIC%</font></b><font color="#FF0000">"</font>
+<b><font color="#0000FF">                </font></b><font color="#009900">scope=</font><font color="#FF0000">"topic"</font>
+<b><font color="#0000FF">                </font></b><font color="#009900">web=</font><font color="#FF0000">"all"</font>
+<b><font color="#0000FF">                </font></b><font color="#009900">topic=</font><font color="#FF0000">"</font><b><font color="#0000FF">%HOMETOPIC%</font></b><font color="#FF0000">"</font>
+<b><font color="#0000FF">                </font></b><font color="#009900">format=</font><font color="#FF0000">"&lt;option value='</font><b><font color="#000000">$web</font></b><font color="#FF0000">.</font><b><font color="#000000">$topic</font></b><font color="#FF0000">'&gt;</font><b><font color="#000000">$web</font></b><font color="#FF0000">&lt;/option&gt;"</font>
+<b><font color="#0000FF">                </font></b><font color="#009900">separator=</font><font color="#FF0000">" "</font>
+<b><font color="#0000FF">            }%</font></b>
+    <b><font color="#0000FF">&lt;/select&gt;</font></b>
+    <b><font color="#0000FF">&lt;input</font></b> <font color="#009900">type</font><font color="#990000">=</font><font color="#FF0000">"submit"</font> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"foswikiSubmit"</font> <font color="#009900">value</font><font color="#990000">=</font><font color="#FF0000">"Go"</font> <b><font color="#0000FF">/&gt;</font></b>
+<b><font color="#0000FF">&lt;/form&gt;</font></b>
+<b><font color="#0000FF">&lt;/verbatim&gt;</font></b>
+
+<b><font color="#000080">---+++</font></b> Test case
+
+Public webs can be found with the %<b><font color="#000080">&lt;nop&gt;</font></b>WEBLIST% macro.
+
+<b><font color="#0000FF">&lt;form&gt;</font></b>
+    <b><font color="#0000FF">&lt;select</font></b> <font color="#009900">name</font><font color="#990000">=</font><font color="#FF0000">"topic"</font><b><font color="#0000FF">&gt;</font></b>
+        <b><font color="#0000FF">&lt;option</font></b> <font color="#009900">value</font><font color="#990000">=</font><font color="#FF0000">"%TOPIC%"</font><b><font color="#0000FF">&gt;</font></b>Select...<b><font color="#0000FF">&lt;/option&gt;</font></b>
+            <b><font color="#0000FF">%SEARCH{</font></b>
+<b><font color="#0000FF">                </font></b><font color="#FF0000">"</font><b><font color="#0000FF">%HOMETOPIC%</font></b><font color="#FF0000">"</font>
+<b><font color="#0000FF">                </font></b><font color="#009900">scope=</font><font color="#FF0000">"topic"</font>
+<b><font color="#0000FF">                </font></b><font color="#009900">web=</font><font color="#FF0000">"all"</font>
+<b><font color="#0000FF">                </font></b><font color="#009900">topic=</font><font color="#FF0000">"</font><b><font color="#0000FF">%HOMETOPIC%</font></b><font color="#FF0000">"</font>
+<b><font color="#0000FF">                </font></b><font color="#009900">format=</font><font color="#FF0000">"&lt;option value='</font><b><font color="#000000">$web</font></b><font color="#FF0000">.</font><b><font color="#000000">$topic</font></b><font color="#FF0000">'&gt;</font><b><font color="#000000">$web</font></b><font color="#FF0000">&lt;/option&gt;"</font>
+<b><font color="#0000FF">                </font></b><font color="#009900">separator=</font><font color="#FF0000">" "</font>
+<b><font color="#0000FF">            }%</font></b>
+        <b><font color="#0000FF">&lt;/select&gt;</font></b>
+    <b><font color="#0000FF">&lt;input</font></b> <font color="#009900">type</font><font color="#990000">=</font><font color="#FF0000">"submit"</font> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"foswikiSubmit"</font> <font color="#009900">value</font><font color="#990000">=</font><font color="#FF0000">"Go"</font> <b><font color="#0000FF">/&gt;</font></b>
+<b><font color="#0000FF">&lt;/form&gt;</font></b>
+
+
+<i><font color="#9A1900">&lt;!-- ============================== --&gt;</font></i>
+#SearchBulletList
+<b><font color="#000080">---++</font></b> Pattern 6: Create a select box with values from a bullet list
+
+<b><font color="#000080">---+++</font></b> Problem
+
+We have a topic with a bullet list with category names. In another topic we want to offer these values in a select box dropdown.
+
+For example, !CategoryList has:
+   * Clients
+   * People
+   * Rooms
+   * Buildings
+
+<b><font color="#000080">---+++</font></b> Solution
+
+The following search pattern can be employed:
+
+<b><font color="#0000FF">&lt;verbatim</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"tml"</font><b><font color="#0000FF">&gt;</font></b>
+<b><font color="#0000FF">&lt;select</font></b> <font color="#009900">name</font><font color="#990000">=</font><font color="#FF0000">"type"</font><b><font color="#0000FF">&gt;</font></b>
+    <b><font color="#0000FF">&lt;option&gt;</font></b>Select category...<b><font color="#0000FF">&lt;/option&gt;</font></b>
+    <b><font color="#0000FF">%SEARCH{</font></b>
+<b><font color="#0000FF">        </font></b><font color="#FF0000">"   *\s*.*?"</font>
+<b><font color="#0000FF">        </font></b><font color="#009900">topic=</font><font color="#FF0000">"CategoryList"</font>
+<b><font color="#0000FF">        </font></b><font color="#009900">type=</font><font color="#FF0000">"regex"</font>
+<b><font color="#0000FF">        </font></b><font color="#009900">multiple=</font><font color="#FF0000">"on"</font>
+<b><font color="#0000FF">        </font></b><font color="#009900">casesensitive=</font><font color="#FF0000">"on"</font>
+<b><font color="#0000FF">        </font></b><font color="#009900">nonoise=</font><font color="#FF0000">"on"</font>
+<b><font color="#0000FF">        </font></b><font color="#009900">format=</font><font color="#FF0000">"&lt;option&gt;</font><b><font color="#000000">$pattern(</font></b><font color="#008080">.*   \*\s*([^\n]*</font><b><font color="#000000">)</font></b><font color="#FF0000">.*)&lt;/option&gt;"</font>
+<b><font color="#0000FF">    }%</font></b>
+<b><font color="#0000FF">&lt;/select&gt;</font></b>
+<b><font color="#0000FF">&lt;/verbatim&gt;</font></b>
+
+To render the bullet list as a comma-separated list, use the =separator= parameter:
+<b><font color="#0000FF">&lt;verbatim</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"tml"</font><b><font color="#0000FF">&gt;</font></b>
+<b><font color="#0000FF">%SEARCH{</font></b>
+<b><font color="#0000FF">    </font></b><font color="#FF0000">"   *\s*.*?"</font>
+<b><font color="#0000FF">    </font></b><font color="#009900">topic=</font><font color="#FF0000">"CategoryList"</font>
+<b><font color="#0000FF">    </font></b><font color="#009900">type=</font><font color="#FF0000">"regex"</font>
+<b><font color="#0000FF">    </font></b><font color="#009900">multiple=</font><font color="#FF0000">"on"</font>
+<b><font color="#0000FF">    </font></b><font color="#009900">casesensitive=</font><font color="#FF0000">"on"</font>
+<b><font color="#0000FF">    </font></b><font color="#009900">nonoise=</font><font color="#FF0000">"on"</font>
+<b><font color="#0000FF">    </font></b><font color="#009900">separator=</font><font color="#FF0000">","</font>
+<b><font color="#0000FF">    </font></b><font color="#009900">format=</font><font color="#FF0000">"</font><b><font color="#000000">$pattern(</font></b><font color="#008080">.*   \*\s*([^\n]*</font><b><font color="#000000">)</font></b><font color="#FF0000">.*)"</font>
+<b><font color="#0000FF">}%</font></b>
+<b><font color="#0000FF">&lt;/verbatim&gt;</font></b>
+
+<i><font color="#9A1900">&lt;!-- ============================== --&gt;</font></i>
+#MovedTopics
+<b><font color="#000080">---++</font></b> Pattern 7: Search all topics that have been moved
+
+<b><font color="#000080">---+++</font></b> Problem
+
+How would I go about listing all moved topics ?
+
+<b><font color="#000080">---+++</font></b> Solution
+
+Search for the 'moved' meta data. Type this: 
+
+<b><font color="#0000FF">&lt;verbatim</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"tml"</font><b><font color="#0000FF">&gt;</font></b>
+Moved topics: <b><font color="#0000FF">%SEARCH{</font></b>
+<b><font color="#0000FF">    </font></b><font color="#FF0000">"moved.from=~'\w+'"</font>
+<b><font color="#0000FF">    </font></b><font color="#009900">web=</font><font color="#FF0000">"all"</font>
+<b><font color="#0000FF">    </font></b><font color="#009900">type=</font><font color="#FF0000">"query"</font>
+<b><font color="#0000FF">    </font></b><font color="#009900">separator=</font><font color="#FF0000">", "</font>
+<b><font color="#0000FF">    </font></b><font color="#009900">format=</font><font color="#FF0000">"</font><b><font color="#000000">$web</font></b><font color="#FF0000">.</font><b><font color="#000000">$topic</font></b><font color="#FF0000">"</font>
+<b><font color="#0000FF">    </font></b><font color="#009900">nonoise=</font><font color="#FF0000">"on"</font>
+<b><font color="#0000FF">}%</font></b>
+<b><font color="#0000FF">&lt;/verbatim&gt;</font></b>
+<b><font color="#000080">---+++</font></b> Test case
+Moved topics: <b><font color="#0000FF">%SEARCH{</font></b>
+<b><font color="#0000FF">    </font></b><font color="#FF0000">"moved.from=~'\w+'"</font>
+<b><font color="#0000FF">    </font></b><font color="#009900">web=</font><font color="#FF0000">"all"</font>
+<b><font color="#0000FF">    </font></b><font color="#009900">type=</font><font color="#FF0000">"query"</font>
+<b><font color="#0000FF">    </font></b><font color="#009900">separator=</font><font color="#FF0000">", "</font>
+<b><font color="#0000FF">    </font></b><font color="#009900">format=</font><font color="#FF0000">"</font><b><font color="#000000">$web</font></b><font color="#FF0000">.</font><b><font color="#000000">$topic</font></b><font color="#FF0000">"</font>
+<b><font color="#0000FF">    </font></b><font color="#009900">nonoise=</font><font color="#FF0000">"on"</font>
+<b><font color="#0000FF">}%</font></b>
+
+<b><font color="#000080">---++</font></b> Pattern 8: Extract level-1 headings
+
+<b><font color="#000080">---+++</font></b> How do I go about extracting the first occurance of a level-1 heading?
+
+<b><font color="#000080">---+++</font></b> Solution
+Use the =$pattern()= token. Type this:
+<b><font color="#0000FF">%STARTSECTION{</font></b><font color="#FF0000">"Headings"</font><b><font color="#0000FF">}%</font></b>
+<b><font color="#0000FF">&lt;verbatim</font></b> <font color="#009900">class</font><font color="#990000">=</font><font color="#FF0000">"tml"</font><b><font color="#0000FF">&gt;</font></b>
+<b><font color="#0000FF">%SEARCH{</font></b>
+<b><font color="#0000FF">    </font></b><font color="#FF0000">"^---[+][^+][^\r\n]+[\r\n]"</font>
+<b><font color="#0000FF">    </font></b><font color="#009900">type=</font><font color="#FF0000">"regex"</font>
+<b><font color="#0000FF">    </font></b><font color="#009900">nonoise=</font><font color="#FF0000">"on"</font>
+<b><font color="#0000FF">    </font></b><font color="#009900">header=</font><font color="#FF0000">"Headings:"</font>
+<b><font color="#0000FF">    </font></b><font color="#009900">limit=</font><font color="#FF0000">"5"</font>
+<b><font color="#0000FF">    </font></b><font color="#009900">format=</font><font color="#FF0000">"   * </font><u><font color="#0000FF">[[</font></u><b><font color="#000000">$topic</font></b><u><font color="#0000FF">][</font></u><b><font color="#000000">$pattern(</font></b><font color="#008080">[\r\n\-+!]+([^\r\n]*?</font><b><font color="#000000">)</font></b><u><font color="#0000FF">[\r\n].*)]]</font></u><font color="#FF0000">"</font>
+<b><font color="#0000FF">    </font></b><font color="#009900">footer=</font><font color="#FF0000">"Found </font><b><font color="#000000">$ntopics</font></b><font color="#FF0000"> topics with level-1 headings"</font>
+<b><font color="#0000FF">}%&lt;/verbatim&gt;</font></b>
+
+<b><font color="#000080">---+++</font></b> Test case
+<b><font color="#0000FF">%SEARCH{</font></b>
+<b><font color="#0000FF">    </font></b><font color="#FF0000">"^---[+][^+][^\r\n]+[\r\n]"</font>
+<b><font color="#0000FF">    </font></b><font color="#009900">type=</font><font color="#FF0000">"regex"</font>
+<b><font color="#0000FF">    </font></b><font color="#009900">nonoise=</font><font color="#FF0000">"on"</font>
+<b><font color="#0000FF">    </font></b><font color="#009900">header=</font><font color="#FF0000">"Headings:"</font>
+<b><font color="#0000FF">    </font></b><font color="#009900">limit=</font><font color="#FF0000">"5"</font>
+<b><font color="#0000FF">    </font></b><font color="#009900">format=</font><font color="#FF0000">"   * </font><u><font color="#0000FF">[[</font></u><b><font color="#000000">$topic</font></b><u><font color="#0000FF">][</font></u><b><font color="#000000">$pattern(</font></b><font color="#008080">[\r\n\-+!]+([^\r\n]*?</font><b><font color="#000000">)</font></b><u><font color="#0000FF">[\r\n].*)]]</font></u><font color="#FF0000">"</font>
+<b><font color="#0000FF">    </font></b><font color="#009900">footer=</font><font color="#FF0000">"Found </font><b><font color="#000000">$ntopics</font></b><font color="#FF0000"> topics with level-1 headings"</font>
+<b><font color="#0000FF">}%</font></b>
+<b><font color="#0000FF">%ENDSECTION{</font></b><font color="#FF0000">"Headings"</font><b><font color="#0000FF">}%</font></b>
+
+---
+*Related Topics:* UserDocumentationCategory, SearchHelp, <u><font color="#0000FF">[[Macros]]</font></u>, FormattedSearch, RegularExpression
+<i><font color="#9A1900">&lt;!-- %JQREQUIRE{"chili"}% --&gt;</font></i>
+</tt></pre>
